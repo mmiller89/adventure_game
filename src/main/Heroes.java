@@ -1,61 +1,75 @@
 package main;
 
-public class Heroes extends HeroClass {
+import java.util.List;
+
+public class Heroes {
 	
-	//Set initial base stats for any player.
-	private String name;
-	private int health = 20;
+	//Set initial base stats for any player. Hero holds heroClass object as well as weapon / armor objects (eventually).
+	private String playerName;
+	HeroClass heroClass;
+    private int health = 20;
 	private int mana = 10;
 	private int attack = 5;
 	private int defense = 3;
-	private int speed = 2;	
-	
+	private int speed = 2;
+
 	//Inherit className from HeroClass.java
-	public Heroes(String name, String className) {
-		super(className);
-		this.name = name;
+	public Heroes(String playerName, HeroClass heroClass){
+		this.playerName = playerName;
+		this.heroClass = heroClass;
+
 	}
-	
+
+
 	//use modifiers from HeroClass.java to adjust stats based on hero class chosen by player.
 	public void setStats() {
 		//The if statement is not being recognized. All mods being set as 0 regardless.
-		if (this.getClassName().toLowerCase().equals("warrior")) {
-			this.setHealthMod(2.0);
-			this.setManaMod(0.0);
-			this.setAttackMod(2.0);
-			this.setDefenseMod(1.0);
-			this.setSpeedMod(1.0);
+		if (this.heroClass.getClassName().equals("Warrior")) {
+			this.heroClass.setHealthMod(2.0);
+			this.heroClass.setManaMod(0.0);
+			this.heroClass.setAttackMod(2.0);
+			this.heroClass.setDefenseMod(1.0);
+			this.heroClass.setSpeedMod(1.0);
 		}
-		else if (this.getClassName().toLowerCase().equals("mage")) {
-			this.setHealthMod(1.0);
-			this.setManaMod(3.0);
-			this.setAttackMod(1.0);
-			this.setDefenseMod(0.5);
-			this.setSpeedMod(1.0);
+		else if (this.heroClass.getClassName().equals("Mage")) {
+			this.heroClass.setHealthMod(1.0);
+			this.heroClass.setManaMod(3.0);
+			this.heroClass.setAttackMod(1.0);
+			this.heroClass.setDefenseMod(0.5);
+			this.heroClass.setSpeedMod(1.0);
 		}
-		else if (this.getClassName().toLowerCase().equals("thief")) {
-			this.setHealthMod(1.5);
-			this.setManaMod(1.0);
-			this.setAttackMod(1.5);
-			this.setDefenseMod(0.5);
-			this.setSpeedMod(3.0);
+		else if (this.heroClass.getClassName().equals("Thief")) {
+			this.heroClass.setHealthMod(1.5);
+			this.heroClass.setManaMod(1.0);
+			this.heroClass.setAttackMod(1.5);
+			this.heroClass.setDefenseMod(0.5);
+			this.heroClass.setSpeedMod(3.0);
 		}
 		
 		//This code functions as expected.
-		this.health *= this.getHealthMod();
-		this.mana *= this.getManaMod();
-		this.attack *= this.getAttackMod();
-		this.defense *= this.getDefenseMod();
-		this.speed *= this.getSpeedMod();
+		this.health *= (int) this.heroClass.getHealthMod();
+		this.mana *= (int) this.heroClass.getManaMod();
+		this.attack *= (int) this.heroClass.getAttackMod();
+		this.defense *= (int) this.heroClass.getDefenseMod();
+		this.speed *= (int) this.heroClass.getSpeedMod();
 
 	}
-	public String getName() {
-		return name;
+
+	public void listStats(){
+		System.out.println("Health: " + this.health);
+		System.out.println("Mana: " + this.mana);
+		System.out.println("Attack: " + this.attack);
+		System.out.println("Defense: " + this.defense);
+		System.out.println("Speed: " + this.speed);
+
 	}
 
-
-	public void setName(String name) {
-		this.name = name;
+	public void listAbilities(){
+		for (Ability ability : this.heroClass.getAbilityList()){
+			System.out.println(ability.getAbilityName() + ": " + ability.getDescription());
+			System.out.println("Type: " + ability.getAttackType() + " | Mana Cost: " + ability.getManaCost());
+			System.out.println();
+		}
 	}
 
 	public int getHealth() {
@@ -97,6 +111,12 @@ public class Heroes extends HeroClass {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	
 
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
 }

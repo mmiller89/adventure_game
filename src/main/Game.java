@@ -1,5 +1,5 @@
 package main;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Game {
@@ -24,27 +24,27 @@ public class Game {
 			classEntry = scn.nextLine().trim().toLowerCase();
 			if (classEntry.equals("warrior") || classEntry.equals("mage") || classEntry.equals("thief")) {
 				loopContinue = false;
-				
 			}
-			
 			else {
 				System.out.println("You did not enter a correct class name. Try again."); 
 			}
 		}
+		classEntry = classEntry.substring(0,1).toUpperCase() + classEntry.substring(1);
+		HeroClass classChoice = new HeroClass(classEntry);
+		Heroes player = new Heroes(n,classChoice);
 		
-		Heroes player = new Heroes(n, classEntry);
-		
-		System.out.println("Welcome " + player.getName() + "!");
-		System.out.println("You have chosen to be a " + player.getClassName() + "?");
+		System.out.println("Welcome " + player.getPlayerName() + "!");
+		System.out.println("You have chosen to be a " + player.heroClass.getClassName() + "?");
 		System.out.println("Calculating new stats based on your class...");
 		System.out.println();
 		player.setStats();
-		
-		System.out.println("Health: " + player.getHealth());
-		System.out.println("Mana: " + player.getMana());
-		System.out.println("Attack: " + player.getAttack());
-		System.out.println("Defense: " + player.getDefense());
-		System.out.println("Speed: " + player.getSpeed());
+		player.listStats();
+
+		System.out.println();
+		System.out.println("Ability List: ");
+		player.listAbilities();
+
+
 		
 
 		

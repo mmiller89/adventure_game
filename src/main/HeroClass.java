@@ -1,8 +1,12 @@
 package main;
 
+import java.util.*;
+
 public class HeroClass {
 	
-	//This is the job class (Warrior, Mage, Thief) that Heroes will inherit. Changes stats and abilities.
+	//This is the job class (Warrior, Mage, Thief) that modifies base stats and holds ability objects.
+
+	//HeroClass will have an object Ability that will be added into abilityList on construction.
 	
 	private String className;
 	private double healthMod;
@@ -10,13 +14,35 @@ public class HeroClass {
 	private double attackMod;
 	private double defenseMod;
 	private double speedMod;
-	
-	public HeroClass(String className) {
-		this.setClassName(className);
+
+	private Set<Ability> abilityList = new HashSet<>();
+
+	public HeroClass(String className){
+		this.className = className;
+		if (this.className.equals("Warrior")){
+			abilityList.add(new Ability(
+					"Heroic Strike",
+					"A searing blow on an enemy.", "Slashing", 0));
+			abilityList.add(new Ability("Crushing Blow",
+					"Leap up and strike down hard on one enemy", "Crushing", 0));
+		}
+		if (this.className.equals("Mage")){
+			//abilityList.add("Icebolt");
+			//abilityList.add("Blaze");
+		}
+		if (this.className.equals("Thief")){
+			//abilityList.add("Slice and Dice");
+			//abilityList.add("Crippling Strike");
+		}
 	}
 
+
 	public String getClassName() {
-		return className.substring(0,1).toUpperCase() + className.substring(1);
+		return className;
+	}
+
+	public Set<Ability> getAbilityList(){
+		return this.abilityList;
 	}
 
 	public void setClassName(String className) {
