@@ -4,13 +4,16 @@ public class Enemy {
 
     private String name;
     private int health;
+
+    private int mana;
     private int attack;
     private int defense;
     private int speed;
 
-    public Enemy(String name, int health, int attack, int defense, int speed){
+    public Enemy(String name, int health, int mana, int attack, int defense, int speed){
         this.name = name;
         this.health = health;
+        this.mana = mana;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
@@ -54,5 +57,13 @@ public class Enemy {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
     }
 }

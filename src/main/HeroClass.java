@@ -45,6 +45,7 @@ public class HeroClass {
 	}
 
 
+
 	public String getClassName() {
 		return className;
 	}

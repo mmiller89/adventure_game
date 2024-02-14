@@ -47,4 +47,12 @@ public class Ability {
     public void setManaCost(int manaCost) {
         this.manaCost = manaCost;
     }
+
+    public int getBaseDamage() {
+        return baseDamage;
+    }
+
+    public void setBaseDamage(int baseDamage) {
+        this.baseDamage = baseDamage;
+    }
 }

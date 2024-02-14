@@ -44,7 +44,7 @@ public class Game {
 		System.out.println("Ability List: ");
 		player.listAbilities();
 
-		Enemy goblin = new Enemy("Goblin", 30, 5, 5, 3);
+		Enemy goblin = new Enemy("Goblin", 30, 10, 5, 2, 2);
 
 		GameManager.battleBegin(player, goblin);
 

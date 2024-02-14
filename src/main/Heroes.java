@@ -8,7 +8,11 @@ public class Heroes {
 	private String playerName;
 	HeroClass heroClass;
     private int health = 20;
+
+	private int maxHealth = 20;
 	private int mana = 10;
+
+	private int maxMana = 10;
 	private int attack = 5;
 	private int defense = 3;
 	private int speed = 2;
@@ -26,7 +30,7 @@ public class Heroes {
 		//The if statement is not being recognized. All mods being set as 0 regardless.
 		if (this.heroClass.getClassName().equals("Warrior")) {
 			this.heroClass.setHealthMod(2.0);
-			this.heroClass.setManaMod(0.5);
+			this.heroClass.setManaMod(1.0);
 			this.heroClass.setAttackMod(1.5);
 			this.heroClass.setDefenseMod(1.5);
 			this.heroClass.setSpeedMod(1.0);
@@ -52,6 +56,9 @@ public class Heroes {
 		this.attack *= (int) this.heroClass.getAttackMod();
 		this.defense *= (int) this.heroClass.getDefenseMod();
 		this.speed *= (int) this.heroClass.getSpeedMod();
+
+		this.maxHealth = this.health;
+		this.maxMana = this.mana;
 
 	}
 
@@ -118,5 +125,21 @@ public class Heroes {
 
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+
+	public int getMaxMana() {
+		return maxMana;
+	}
+
+	public void setMaxMana(int maxMana) {
+		this.maxMana = maxMana;
 	}
 }
