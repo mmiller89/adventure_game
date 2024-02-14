@@ -22,17 +22,25 @@ public class HeroClass {
 		if (this.className.equals("Warrior")){
 			abilityList.add(new Ability(
 					"Heroic Strike",
-					"A searing blow on an enemy.", "Slashing", 0));
+					"A searing blow on an enemy.", "Slashing", 2, 3));
 			abilityList.add(new Ability("Crushing Blow",
-					"Leap up and strike down hard on one enemy", "Crushing", 0));
+					"Leap up and strike down hard on one enemy", "Crushing", 3, 4));
 		}
 		if (this.className.equals("Mage")){
-			//abilityList.add("Icebolt");
-			//abilityList.add("Blaze");
+			abilityList.add(new Ability(
+					"Icebolt",
+					"A magic ice lance pierces enemy.", "Ice", 5, 6));
+			abilityList.add(new Ability(
+					"Absorb Life",
+					"Steals a small amount of health from enemy.", "Magic", 2, 1));
 		}
 		if (this.className.equals("Thief")){
-			//abilityList.add("Slice and Dice");
-			//abilityList.add("Crippling Strike");
+			abilityList.add(new Ability(
+					"Slice and Dice",
+					"Fast dash that slashes a target", "Slashing", 2, 3));
+			abilityList.add(new Ability(
+					"Cripple",
+					"A stab that reduces enemy speed", "Stabbing", 3, 3));
 		}
 	}
 

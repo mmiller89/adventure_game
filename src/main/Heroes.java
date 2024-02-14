@@ -26,9 +26,9 @@ public class Heroes {
 		//The if statement is not being recognized. All mods being set as 0 regardless.
 		if (this.heroClass.getClassName().equals("Warrior")) {
 			this.heroClass.setHealthMod(2.0);
-			this.heroClass.setManaMod(0.0);
-			this.heroClass.setAttackMod(2.0);
-			this.heroClass.setDefenseMod(1.0);
+			this.heroClass.setManaMod(0.5);
+			this.heroClass.setAttackMod(1.5);
+			this.heroClass.setDefenseMod(1.5);
 			this.heroClass.setSpeedMod(1.0);
 		}
 		else if (this.heroClass.getClassName().equals("Mage")) {
@@ -43,7 +43,7 @@ public class Heroes {
 			this.heroClass.setManaMod(1.0);
 			this.heroClass.setAttackMod(1.5);
 			this.heroClass.setDefenseMod(0.5);
-			this.heroClass.setSpeedMod(3.0);
+			this.heroClass.setSpeedMod(2.0);
 		}
 		
 		//This code functions as expected.

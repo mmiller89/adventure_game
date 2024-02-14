@@ -6,12 +6,14 @@ public class Ability {
     private String description;
     private String attackType;
     private int manaCost;
+    private int baseDamage;
 
-    public Ability (String abilityName, String description, String attackType, int manaCost){
+    public Ability (String abilityName, String description, String attackType, int manaCost, int baseDamage){
         this.abilityName = abilityName;
         this.description = description;
         this.attackType = attackType;
         this.manaCost = manaCost;
+        this.baseDamage = baseDamage;
     }
 
     public String getAbilityName() {
