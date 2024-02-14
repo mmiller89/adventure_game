@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Game {
 	
-	
+	//Game runs the main game and is the starter point of the code.
 	
 	public static void main(String[] args) {
 		
@@ -35,7 +35,7 @@ public class Game {
 		
 		System.out.println("Welcome " + player.getPlayerName() + "!");
 		System.out.println("You have chosen to be a " + player.heroClass.getClassName() + "?");
-		System.out.println("Calculating new stats based on your class...");
+		System.out.println("Calculating stats based on your class...");
 		System.out.println();
 		player.setStats();
 		player.listStats();
@@ -44,7 +44,7 @@ public class Game {
 		System.out.println("Ability List: ");
 		player.listAbilities();
 
-		Enemy goblin = new Enemy("Goblin", 30, 10, 5, 2, 2);
+		Enemy goblin = new Enemy("Goblin", 30, 10, 5, 2, 3);
 
 		GameManager.battleBegin(player, goblin);
 

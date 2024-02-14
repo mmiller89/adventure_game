@@ -4,9 +4,8 @@ import java.util.*;
 
 public class HeroClass {
 	
-	//This is the job class (Warrior, Mage, Thief) that modifies base stats and holds ability objects.
+	//This is the job class (Warrior, Mage, Thief) that modifies base stats and holds initial ability objects.
 
-	//HeroClass will have an object Ability that will be added into abilityList on construction.
 	
 	private String className;
 	private double healthMod;

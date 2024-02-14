@@ -4,7 +4,8 @@ import java.util.List;
 
 public class Heroes {
 	
-	//Set initial base stats for any player. Hero holds heroClass object as well as weapon / armor objects (eventually).
+	//Set initial base stats for any player. Heroes have a hero class, weapons/armor, and abilities.
+
 	private String playerName;
 	HeroClass heroClass;
     private int health = 20;

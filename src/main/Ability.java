@@ -1,7 +1,8 @@
 package main;
 
 public class Ability {
-
+    //Standard ability class, holding all the information about the ability.
+    //Abilities with custom effects will be handled here.
     private String abilityName;
     private String description;
     private String attackType;
