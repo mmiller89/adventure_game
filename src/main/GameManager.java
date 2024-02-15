@@ -10,9 +10,18 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GameManager {
 
-    public static void battleBegin(Heroes player, Enemy enemy){
+    public static void adventure(Heroes player){
+        System.out.println("Adventures coming soon!");
+    }
+
+    public static void shop (Heroes player){
+        System.out.println("Shop coming soon!");
+    }
+
+    public static void battle(Heroes player, Enemy enemy){
         List<Ability> ability_list = new ArrayList<>(player.heroClass.getAbilityList());
         boolean battleActive = true;
+
 
         System.out.println("A " + enemy.getName() + " appears!");
 
@@ -49,6 +58,7 @@ public class GameManager {
     }
 
     public static boolean playerTurn(Heroes player, Enemy enemy, List<Ability> ability_list){
+        int choice;
         System.out.println();
         System.out.println(player.getPlayerName() + " | " + enemy.getName());
         System.out.println("Health: " + player.getHealth() + " | " + "Health: " + enemy.getHealth());
@@ -62,36 +72,54 @@ public class GameManager {
         }
 
         Scanner scn = new Scanner(System.in);
-        int choice = scn.nextInt();
-        int damage;
-        String chosenAbility;
+        try {
+            choice = scn.nextInt();
+        }
+        catch (Exception e){
+            choice = 0;
+        }
+
+        int damage = 0;
+        String chosenAbility = null;
+        boolean attackSuccess = true;
 
         if (choice == 1){
             damage = damageCalculator(player, enemy, "player");
             chosenAbility = "a weapon";
         } else if (choice == 2){
-            damage = damageCalculator(player, enemy, ability_list.get(0), "player");
-            player.setMana(player.getMana() - ability_list.get(0).getManaCost());
-            chosenAbility = ability_list.get(0).getAbilityName();
+            if (player.validateMana(ability_list.get(0))){
+                damage = damageCalculator(player, enemy, ability_list.get(0), "player");
+                chosenAbility = ability_list.get(0).getAbilityName();
+                attackSuccess = true;
+            } else { attackSuccess = false;}
 
         } else if (choice == 3){
-            damage = damageCalculator(player, enemy, ability_list.get(1), "player");
-            player.setMana(player.getMana() - ability_list.get(1).getManaCost());
-            chosenAbility = ability_list.get(1).getAbilityName();
+            if (player.validateMana(ability_list.get(1))){
+                damage = damageCalculator(player, enemy, ability_list.get(1), "player");
+                chosenAbility = ability_list.get(1).getAbilityName();
+                attackSuccess = true;
+            } else { attackSuccess = false;}
 
 
         } else {
-            chosenAbility = "an awkward stare (no action taken)";
-            damage = 0;
+            attackSuccess = false;
         }
-        System.out.println(player.getPlayerName() + " did " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
-        enemy.setHealth(enemy.getHealth() - damage);
-        if (enemy.getHealth() <= 0){
-            System.out.println();
-            System.out.println("You have vanquished enemy " + enemy.getName() + "!");
-            return true;
+
+        if (attackSuccess){
+            System.out.println(player.getPlayerName() + " did " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
+            enemy.setHealth(enemy.getHealth() - damage);
+            if (enemy.getHealth() <= 0){
+                System.out.println();
+                System.out.println("You have vanquished enemy " + enemy.getName() + "!");
+                return true;
+            }
+            return false;
         }
-        return false;
+        else {
+            System.out.println(player.getPlayerName() + "'s attack failed!");
+            return false;
+        }
+
     }
 
     public static boolean enemyTurn(Heroes player, Enemy enemy){

@@ -96,6 +96,19 @@ public class Heroes {
 		this.mana = mana;
 	}
 
+	public boolean validateMana(Ability ability){
+		int manaCost = ability.getManaCost();
+		if (this.mana >= manaCost){
+			this.setMana(this.getMana() - manaCost);
+			return true;
+		} else {
+			System.out.println(this.getPlayerName() + " is too fatigued (not enough mana)!");
+			return false;
+		}
+
+
+	}
+
 	public int getAttack() {
 		return attack;
 	}

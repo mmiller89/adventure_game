@@ -5,6 +5,7 @@ import java.util.*;
 public class HeroClass {
 	
 	//This is the job class (Warrior, Mage, Thief) that modifies base stats and holds initial ability objects.
+	//At some point, players can add abilities to their character. I will slowly start initializing abilities.
 
 	
 	private String className;
@@ -16,22 +17,25 @@ public class HeroClass {
 
 	private Set<Ability> abilityList = new HashSet<>();
 
+	//All abilities must be initialized like this eventually, so they can be added/taken from abilityList when I code that feature.
+	private Ability heroicStrike = (new Ability
+			("Heroic Strike",
+			"A searing blow on an enemy.", "Slashing", 2, 3));
+
 	public HeroClass(String className){
 		this.className = className;
 		if (this.className.equals("Warrior")){
-			abilityList.add(new Ability(
-					"Heroic Strike",
-					"A searing blow on an enemy.", "Slashing", 2, 3));
+			abilityList.add(heroicStrike);
 			abilityList.add(new Ability("Crushing Blow",
 					"Leap up and strike down hard on one enemy", "Crushing", 3, 4));
 		}
 		if (this.className.equals("Mage")){
 			abilityList.add(new Ability(
 					"Icebolt",
-					"A magic ice lance pierces enemy.", "Ice", 5, 6));
+					"A magic ice lance pierces enemy.", "Ice", 5, 8));
 			abilityList.add(new Ability(
 					"Absorb Life",
-					"Steals a small amount of health from enemy.", "Magic", 2, 1));
+					"Steals a small amount of health from enemy.", "Magic", 3, 3));
 		}
 		if (this.className.equals("Thief")){
 			abilityList.add(new Ability(
