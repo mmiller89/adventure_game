@@ -10,13 +10,17 @@ public class Enemy {
     private int defense;
     private int speed;
 
-    public Enemy(String name, int health, int mana, int attack, int defense, int speed){
+    //must be one of following: Organic, Machine, Mystical, Unarmored, Armored, Bare-Armed
+    private String type;
+
+    public Enemy(String name, int health, int mana, int attack, int defense, int speed, String type){
         this.name = name;
         this.health = health;
         this.mana = mana;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
+        this.type = type;
     }
 
     public String getName() {
@@ -65,5 +69,13 @@ public class Enemy {
 
     public void setMana(int mana) {
         this.mana = mana;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

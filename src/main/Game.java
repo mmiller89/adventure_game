@@ -95,7 +95,7 @@ public class Game {
 		intChoice = 0;
 
 		while (looping){
-			System.out.println("\n*****\n1 - Battle\n2 - Shop\n3 - Travel\n4 - Exit (Your hero will not be saved! This is a planned update TBD.\n*****");
+			System.out.println("\n*****\n1 - Arena\n2 - Shop\n3 - Travel\n4 - Exit (Your hero will not be saved! This is a planned update TBD.\n*****");
 			try {
 				intChoice = scn.nextInt();
 			}
@@ -103,7 +103,7 @@ public class Game {
 				System.out.println("That's not a number, try again.\n");
 			}
 			if (intChoice == 1) {
-				Enemy goblin = new Enemy("Goblin", 30, 10, 5, 2, 3);
+				Enemy goblin = new Enemy("Goblin", 30, 10, 5, 2, 3, "Organic");
 				GameManager.battle(player, goblin);
 			}
 			else if (intChoice == 2) {

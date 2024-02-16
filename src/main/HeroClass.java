@@ -4,8 +4,8 @@ import java.util.*;
 
 public class HeroClass {
 	
-	//This is the job class (Warrior, Mage, Thief) that modifies base stats and holds initial ability objects.
-	//At some point, players can add abilities to their character. I will slowly start initializing abilities.
+	//This is the job class (Warrior, Mage, Thief) that modifies base stats and holds a set of ability objects
+	//to use in combat.
 
 	
 	private String className;
@@ -17,33 +17,43 @@ public class HeroClass {
 
 	private Set<Ability> abilityList = new HashSet<>();
 
-	//All abilities must be initialized like this eventually, so they can be added/taken from abilityList when I code that feature.
-	private Ability heroicStrike = (new Ability
+	private Ability heroicStrike = new Ability
 			("Heroic Strike",
-			"A searing blow on an enemy.", "Slashing", 2, 3));
+			"A searing blow on an enemy.", "Slashing", 2, 3,
+					"none");
+	private Ability crushingBlow = new Ability("Crushing Blow",
+			"Leap up and strike down hard on one enemy", "Crushing", 3, 4,
+			"none");
+	private Ability iceBolt = new Ability(
+			"Icebolt",
+			"A magic ice lance pierces enemy.", "Ice", 5, 8,
+			"none");
+	private Ability lifeSteal = new Ability(
+			"Absorb Life",
+			"Steals a small amount of health from enemy.", "Magic", 3, 1,
+			"absorb_hp");
+	private Ability sliceAndDice = new Ability(
+			"Slice and Dice",
+			"Fast dash that slashes a target", "Slashing", 2, 3,
+			"none");
+	private Ability cripple = new Ability(
+			"Cripple",
+			"A stab that reduces enemy speed", "Stabbing", 3, 3,
+			"none");
 
 	public HeroClass(String className){
 		this.className = className;
 		if (this.className.equals("Warrior")){
 			abilityList.add(heroicStrike);
-			abilityList.add(new Ability("Crushing Blow",
-					"Leap up and strike down hard on one enemy", "Crushing", 3, 4));
+			abilityList.add(crushingBlow);
 		}
 		if (this.className.equals("Mage")){
-			abilityList.add(new Ability(
-					"Icebolt",
-					"A magic ice lance pierces enemy.", "Ice", 5, 8));
-			abilityList.add(new Ability(
-					"Absorb Life",
-					"Steals a small amount of health from enemy.", "Magic", 3, 3));
+			abilityList.add(iceBolt);
+			abilityList.add(lifeSteal);
 		}
 		if (this.className.equals("Thief")){
-			abilityList.add(new Ability(
-					"Slice and Dice",
-					"Fast dash that slashes a target", "Slashing", 2, 3));
-			abilityList.add(new Ability(
-					"Cripple",
-					"A stab that reduces enemy speed", "Stabbing", 3, 3));
+			abilityList.add(sliceAndDice);
+			abilityList.add(cripple);
 		}
 	}
 
