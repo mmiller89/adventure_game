@@ -80,29 +80,29 @@ public class Ability {
     //Ice - 25% extra damage to mystical/elemental targets.
 
     public double typeModifier(Enemy enemy){
-        if (this.getAttackType().equals("Fire") && enemy.getType().equals("Organic")){
+        if (this.getAttackType().contains("Fire") && enemy.getType().contains("Organic")){
             System.out.println("Weakness hit! Damage increased!");
-            return 1.50;
+            return 1.25;
         }
-        if (this.getAttackType().equals("Lightning") && enemy.getType().equals("Machine")){
+        if (this.getAttackType().contains("Lightning") && enemy.getType().contains("Machine")){
             System.out.println("Weakness hit! Damage increased!");
-            return 1.50;
+            return 1.25;
         }
-        if (this.getAttackType().equals("Ice") && (enemy.getType().equals("Mystical") || enemy.getType().equals("Elemental"))){
+        if (this.getAttackType().contains("Ice") && (enemy.getType().contains("Mystical") || enemy.getType().contains("Elemental"))){
             System.out.println("Weakness hit! Damage increased!");
-            return 1.50;
+            return 1.25;
         }
-        if (this.getAttackType().equals("Piercing") && enemy.getType().equals("Unarmored")){
+        if (this.getAttackType().contains("Piercing") && enemy.getType().contains("Unarmored")){
             System.out.println("Weakness hit! Damage increased!");
-            return 1.50;
+            return 1.25;
         }
-        if (this.getAttackType().equals("Slashing") && enemy.getType().equals("Bare-Armed")){
+        if (this.getAttackType().contains("Slashing") && enemy.getType().contains("Bare-Armed")){
             System.out.println("Weakness hit! Damage increased!");
-            return 1.50;
+            return 1.25;
         }
-        if (this.getAttackType().equals("Crushing") && enemy.getType().equals("Armored")){
+        if (this.getAttackType().contains("Crushing") && enemy.getType().contains("Armored")){
             System.out.println("Weakness hit! Damage increased!");
-            return 1.50;
+            return 1.25;
         }
         return 1.0;
     }

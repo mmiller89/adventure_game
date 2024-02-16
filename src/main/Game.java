@@ -59,7 +59,7 @@ public class Game {
 			}
 			classEntry = classEntry.substring(0,1).toUpperCase() + classEntry.substring(1);
 			HeroClass classChoice = new HeroClass(classEntry);
-			player = new Heroes(nameChoice,classChoice);
+			player = new Heroes(nameChoice,classChoice, "None", "None");
 
 			System.out.println("Welcome " + player.getPlayerName() + "!");
 			System.out.println("You have chosen to be a " + player.heroClass.getClassName() + "?");
@@ -95,7 +95,7 @@ public class Game {
 		intChoice = 0;
 
 		while (looping){
-			System.out.println("\n*****\n1 - Arena\n2 - Shop\n3 - Travel\n4 - Exit (Your hero will not be saved! This is a planned update TBD.\n*****");
+			System.out.println("\n*****\n1 - Arena\n2 - Shop\n3 - Travel\n4 - Adventure Guide\n5 - Exit (Your hero will not be saved! This is a planned update TBD.)\n*****");
 			try {
 				intChoice = scn.nextInt();
 			}
@@ -103,8 +103,8 @@ public class Game {
 				System.out.println("That's not a number, try again.\n");
 			}
 			if (intChoice == 1) {
-				Enemy goblin = new Enemy("Goblin", 30, 10, 5, 2, 3, "Organic");
-				GameManager.battle(player, goblin);
+				Enemy goblin = new Enemy("Goblin", 30, 10, 6, 4, 5, "Organic", "Unarmored", "None", "None");
+				GameManager.battle(player, goblin, 0);
 			}
 			else if (intChoice == 2) {
 				GameManager.shop(player);
@@ -113,7 +113,13 @@ public class Game {
 				GameManager.adventure(player);
 			}
 			else if (intChoice == 4){
+				System.out.println("Coming soon.");
+			}
+			else if (intChoice == 5){
 				looping = false;
+			}
+			else {
+				System.out.println("Not a valid choice.");
 			}
 			scn.nextLine();
 		}

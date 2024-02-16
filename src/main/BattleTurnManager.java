@@ -6,23 +6,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class BattleTurnManager{
 
+    public static boolean enhancedAttack;
 
-    public static String takeTurn(Heroes player, Enemy enemy, List<Ability> ability_list){
+    public static String takeTurn(Heroes player, Enemy enemy, List<Ability> ability_list, int currentTurn){
         boolean playerDeath = false;
         boolean enemyDeath = false;
         if (player.getSpeed() >= enemy.getSpeed()){
-            playerAttack(player, enemy, ability_list);
+            playerAttack(player, enemy, ability_list, currentTurn);
             enemyDeath = enemy.getHealth() <= 0;
             if (!enemyDeath){
-                enemyAttack(player, enemy);
+                enemyAttack(player, enemy, currentTurn);
                 playerDeath = player.getHealth() <= 0;
             }
         }
         else {
-            enemyAttack(player, enemy);
+            enemyAttack(player, enemy, currentTurn);
             playerDeath = player.getHealth() <= 0;
             if (!playerDeath){
-                playerAttack(player, enemy, ability_list);
+                playerAttack(player, enemy, ability_list, currentTurn);
                 enemyDeath = enemy.getHealth() <= 0;
             }
         }
@@ -46,13 +47,18 @@ public class BattleTurnManager{
         return "";
     }
 
-    public static void playerAttack(Heroes player, Enemy enemy, List<Ability> ability_list) {
+    public static void playerAttack(Heroes player, Enemy enemy, List<Ability> ability_list, int currentTurn) {
         int choice;
         System.out.println();
-        System.out.println(player.getPlayerName() + " | " + "Health: " + player.getHealth() + " Mana: " + player.getMana());
-        System.out.println(enemy.getName() + " | " + "Health: " + enemy.getHealth() + " Mana: " + enemy.getMana());
+        System.out.println("Turn " + currentTurn);
+        System.out.println(player.getPlayerName() + " | " + "Health: " + player.getHealth() + " | " + " Mana: " + player.getMana() + " | " + " Boon: " + player.getBoon() + " | " + " Status: " + player.getStatus());
+        System.out.println(enemy.getName() + " | " + "Health: " + enemy.getHealth() + " | " + " Mana: " + enemy.getMana() + " | " + " Boon: " + enemy.getBoon() + " | " + " Status: " + enemy.getStatus());
         System.out.println("What will you do? Type a number.");
-        System.out.println("1 - Attack");
+        if (player.getBoon().equals("Enhance")){
+            System.out.println("1 - Attack (Enhanced)");
+        } else {
+            System.out.println("1 - Attack");
+        }
         int iterator = 2;
         for (Ability a : ability_list) {
             System.out.println(iterator + " - " + a.getAbilityName() + " | " + "Mana Cost: " + a.getManaCost());
@@ -92,13 +98,14 @@ public class BattleTurnManager{
         }
 
     }
-    public static void enemyAttack(Heroes player, Enemy enemy){
+    public static void enemyAttack(Heroes player, Enemy enemy, int currentTurn){
         System.out.println();
         System.out.println(enemy.getName() + " attacks " + player.getPlayerName() + "!");
         int damage = DamageCalculator.damageCalculator(player, enemy, "enemy");
         System.out.println(player.getPlayerName() + " takes " + damage + " damage!");
         player.setHealth(player.getHealth() - damage);
     }
+
 
 
 }

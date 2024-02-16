@@ -18,10 +18,15 @@ public class Heroes {
 	private int defense = 3;
 	private int speed = 2;
 
+	private String boon;
+	private String status;
+
 	//Inherit className from HeroClass.java
-	public Heroes(String playerName, HeroClass heroClass){
+	public Heroes(String playerName, HeroClass heroClass, String boon, String status){
 		this.playerName = playerName;
 		this.heroClass = heroClass;
+		this.boon = boon;
+		this.status = status;
 
 	}
 
@@ -45,18 +50,18 @@ public class Heroes {
 		}
 		else if (this.heroClass.getClassName().equals("Thief")) {
 			this.heroClass.setHealthMod(1.5);
-			this.heroClass.setManaMod(1.0);
+			this.heroClass.setManaMod(1.5);
 			this.heroClass.setAttackMod(1.5);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(2.0);
 		}
 		
 		//This code functions as expected.
-		this.health *= (int) this.heroClass.getHealthMod();
-		this.mana *= (int) this.heroClass.getManaMod();
-		this.attack *= (int) this.heroClass.getAttackMod();
-		this.defense *= (int) this.heroClass.getDefenseMod();
-		this.speed *= (int) this.heroClass.getSpeedMod();
+        this.health = (int) (this.health * this.heroClass.getHealthMod());
+        this.mana = (int) (this.mana * this.heroClass.getManaMod());
+        this.attack = (int) (this.attack * this.heroClass.getAttackMod());
+        this.defense = (int) (this.defense * this.heroClass.getDefenseMod());
+        this.speed = (int) (this.speed * this.heroClass.getSpeedMod());
 
 		this.maxHealth = this.health;
 		this.maxMana = this.mana;
@@ -155,5 +160,21 @@ public class Heroes {
 
 	public void setMaxMana(int maxMana) {
 		this.maxMana = maxMana;
+	}
+
+	public String getBoon() {
+		return boon;
+	}
+
+	public void setBoon(String boon) {
+		this.boon = boon;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

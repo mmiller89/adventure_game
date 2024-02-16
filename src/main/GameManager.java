@@ -18,7 +18,7 @@ public class GameManager {
         System.out.println("Shop coming soon!");
     }
 
-    public static void battle(Heroes player, Enemy enemy){
+    public static void battle(Heroes player, Enemy enemy, int currentTurn){
         //When enemies have abilites, create a seperate list.
         List<Ability> ability_list = new ArrayList<>(player.heroClass.getAbilityList());
         boolean battleActive = true;
@@ -27,11 +27,13 @@ public class GameManager {
         System.out.println("A " + enemy.getName() + " appears!");
 
         while(battleActive) {
+            currentTurn++;
             //When enemies start having abilities, import two separate lists of abilities.
-            String outcome = BattleTurnManager.takeTurn(player, enemy, ability_list);
+            String outcome = BattleTurnManager.takeTurn(player, enemy, ability_list, currentTurn);
             if (outcome.equals("battle over")) {
                 battleActive = false;
             }
+
 
 
         }

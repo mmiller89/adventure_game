@@ -19,27 +19,27 @@ public class HeroClass {
 
 	private Ability heroicStrike = new Ability
 			("Heroic Strike",
-			"A searing blow on an enemy.", "Slashing", 2, 3,
-					"none");
+			"A slashing blow to one target. Enhances weapon, causing attack to do 200% damage.", "Slashing", 2, 3,
+					"enhance_attack");
 	private Ability crushingBlow = new Ability("Crushing Blow",
-			"Leap up and strike down hard on one enemy", "Crushing", 3, 4,
-			"none");
+			"Crush an enemy. High power, but hero loses 20% attack for remainder of battle.", "Crushing", 3, 10,
+			"weakened");
 	private Ability iceBolt = new Ability(
 			"Icebolt",
-			"A magic ice lance pierces enemy.", "Ice", 5, 8,
+			"Assault a foe with a frosty ice lance.", "Ice", 5, 8,
 			"none");
 	private Ability lifeSteal = new Ability(
 			"Absorb Life",
-			"Steals a small amount of health from enemy.", "Magic", 3, 1,
+			"Steals a small amount of health from enemy. Non-elemental magic.", "Magic", 3, 1,
 			"absorb_hp");
 	private Ability sliceAndDice = new Ability(
 			"Slice and Dice",
-			"Fast dash that slashes a target", "Slashing", 2, 3,
-			"none");
+			"Dashes to target and slashes. Does double damage if heroes speed is higher than enemy, or half if lower.", "Slashing", 2, 3,
+			"speed_double");
 	private Ability cripple = new Ability(
 			"Cripple",
-			"A stab that reduces enemy speed", "Stabbing", 3, 3,
-			"none");
+			"A piercing stab that reduces enemy speed.", "Piercing", 3, 3,
+			"reduce_speed");
 
 	public HeroClass(String className){
 		this.className = className;

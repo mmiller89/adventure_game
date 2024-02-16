@@ -11,16 +11,23 @@ public class Enemy {
     private int speed;
 
     //must be one of following: Organic, Machine, Mystical, Unarmored, Armored, Bare-Armed
-    private String type;
+    private String typeOne;
+    private String typeTwo;
 
-    public Enemy(String name, int health, int mana, int attack, int defense, int speed, String type){
+    private String boon;
+    private String status;
+
+    public Enemy(String name, int health, int mana, int attack, int defense, int speed, String typeOne, String typeTwo, String boon, String status){
         this.name = name;
         this.health = health;
         this.mana = mana;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
-        this.type = type;
+        this.typeOne = typeOne;
+        this.typeTwo = typeTwo;
+        this.boon = boon;
+        this.status = status;
     }
 
     public String getName() {
@@ -72,10 +79,30 @@ public class Enemy {
     }
 
     public String getType() {
-        return type;
+        return typeOne + typeTwo;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeOne(String typeOne) {
+        this.typeOne = typeOne;
+    }
+
+    public void setTypeTwo(String typeTwo) {
+        this.typeTwo = typeTwo;
+    }
+
+    public String getBoon() {
+        return boon;
+    }
+
+    public void setBoon(String boon) {
+        this.boon = boon;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
