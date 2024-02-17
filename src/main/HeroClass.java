@@ -15,31 +15,32 @@ public class HeroClass {
 	private double defenseMod;
 	private double speedMod;
 
-	private Set<Ability> abilityList = new HashSet<>();
+	private Set<Ability> abilityList = new LinkedHashSet<>();
 
 	private Ability heroicStrike = new Ability
 			("Heroic Strike",
-			"A slashing blow to one target. Enhances weapon, causing attack to do 200% damage.", "Slashing", 2, 3,
-					"enhance_attack");
+			"A slashing blow to one target. Enhances weapon, causing your next regular attack to do 200% damage.", "Slashing", 2, 3,
+					"heroic strike", "I'll suffer you no longer!", -1, -1);
 	private Ability crushingBlow = new Ability("Crushing Blow",
 			"Crush an enemy. High power, but hero loses 20% attack for remainder of battle.", "Crushing", 3, 10,
-			"weakened");
+			"crushing blow", "A devastating blow to you, fiend!", -1, -1);
 	private Ability iceBolt = new Ability(
 			"Icebolt",
 			"Assault a foe with a frosty ice lance.", "Ice", 5, 8,
-			"none");
+			"none", "", -1, -1);
+	//maybe icebolt can reduce enemy attack by 10%?
 	private Ability lifeSteal = new Ability(
 			"Absorb Life",
 			"Steals a small amount of health from enemy. Non-elemental magic.", "Magic", 3, 1,
-			"absorb_hp");
+			"absorb life", "", -1, -1);
 	private Ability sliceAndDice = new Ability(
 			"Slice and Dice",
 			"Dashes to target and slashes. Does double damage if heroes speed is higher than enemy, or half if lower.", "Slashing", 2, 3,
-			"speed_double");
+			"slice and dice", "", -1, -1);
 	private Ability cripple = new Ability(
 			"Cripple",
 			"A piercing stab that reduces enemy speed.", "Piercing", 3, 3,
-			"reduce_speed");
+			"cripple", "", -1, -1);
 
 	public HeroClass(String className){
 		this.className = className;
@@ -55,6 +56,8 @@ public class HeroClass {
 			abilityList.add(sliceAndDice);
 			abilityList.add(cripple);
 		}
+
+		//Maybe a time themed job that manipulates the turn variable to do more damage/take less damage.
 	}
 
 

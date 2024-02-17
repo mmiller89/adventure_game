@@ -2,31 +2,31 @@ package main;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BattleTurnManager{
 
-    public static boolean enhancedAttack;
-
-    public static String takeTurn(Heroes player, Enemy enemy, List<Ability> ability_list, int currentTurn){
+    public static String takeTurn(Heroes player, Enemy enemy, List<Ability> ability_list, List<Ability> enemy_ability_list, int currentTurn){
         boolean playerDeath = false;
         boolean enemyDeath = false;
         if (player.getSpeed() >= enemy.getSpeed()){
             playerAttack(player, enemy, ability_list, currentTurn);
             enemyDeath = enemy.getHealth() <= 0;
             if (!enemyDeath){
-                enemyAttack(player, enemy, currentTurn);
+                enemyAttack(player, enemy, enemy_ability_list, currentTurn);
                 playerDeath = player.getHealth() <= 0;
             }
         }
         else {
-            enemyAttack(player, enemy, currentTurn);
+            enemyAttack(player, enemy, enemy_ability_list, currentTurn);
             playerDeath = player.getHealth() <= 0;
             if (!playerDeath){
                 playerAttack(player, enemy, ability_list, currentTurn);
                 enemyDeath = enemy.getHealth() <= 0;
             }
         }
+        turnPassBoons(player, enemy, ability_list, enemy_ability_list);
 
         if (enemyDeath){
             System.out.println();
@@ -44,6 +44,7 @@ public class BattleTurnManager{
             player.setMana(player.getMaxMana());
             return "battle over";
         }
+
         return "";
     }
 
@@ -80,7 +81,7 @@ public class BattleTurnManager{
             if (choice == 1) {
                 damage = DamageCalculator.damageCalculator(player, enemy, "player");
                 chosenAbility = "a weapon";
-            } else if (player.validateMana(ability_list.get(choice - 2))){
+            } else if (player.validateAndRemoveMana(ability_list.get(choice - 2))){
                 damage = DamageCalculator.damageCalculator(player, enemy, ability_list.get(choice - 2), "player");
                 chosenAbility = ability_list.get(choice - 2).getAbilityName();
             } else { attackSuccess = false; }
@@ -92,18 +93,52 @@ public class BattleTurnManager{
         if (attackSuccess){
             System.out.println(player.getPlayerName() + " did " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
             enemy.setHealth(enemy.getHealth() - damage);
-        }
-        else {
+        } else {
             System.out.println(player.getPlayerName() + "'s attack failed!");
+        }
+        scn.nextLine();
+
+    }
+    public static void enemyAttack(Heroes player, Enemy enemy, List<Ability> enemy_ability_list, int currentTurn){
+
+
+        Ability chosenAbility = enemy.getAbilityInList(EnemyAI.chooseAbility(player, enemy, currentTurn, enemy_ability_list));
+        System.out.println();
+        if (chosenAbility.getAttackType().equals("Non-Damage") && enemy.validateAndRemoveMana(chosenAbility)){
+            System.out.println(enemy.getName() + " uses " + chosenAbility.getAbilityName() + "!");
+            DamageCalculator.damageCalculator(player, enemy, chosenAbility, "enemy");
+        } else if (enemy.validateAndRemoveMana(chosenAbility)) {
+            System.out.println(enemy.getName() + " uses " + chosenAbility.getAbilityName() + " on " + player.getPlayerName() + "!");
+            int damage = DamageCalculator.damageCalculator(player, enemy, chosenAbility, "enemy");
+            System.out.println(player.getPlayerName() + " takes " + damage + " damage!");
+            player.setHealth(player.getHealth() - damage);
+        } else {
+            System.out.println(enemy.getName() + " attempted to use its turn, but failed!");
         }
 
     }
-    public static void enemyAttack(Heroes player, Enemy enemy, int currentTurn){
-        System.out.println();
-        System.out.println(enemy.getName() + " attacks " + player.getPlayerName() + "!");
-        int damage = DamageCalculator.damageCalculator(player, enemy, "enemy");
-        System.out.println(player.getPlayerName() + " takes " + damage + " damage!");
-        player.setHealth(player.getHealth() - damage);
+
+
+    //Handles turn count down for buffs.
+    public static void turnPassBoons(Heroes player, Enemy enemy, List<Ability> ability_list, List<Ability> enemy_ability_list){
+
+
+        for (Ability e: enemy_ability_list){
+            if (e.getTurnsRemaining() > 0){
+                e.setTurnsRemaining(e.getTurnsRemaining() - 1);
+                if (e.getTurnsRemaining() == 0) {
+
+                    //Set individual behavior per each buff.
+                    if (enemy.getBoon().equals("Water Shield")){
+                        enemy.setDefense((int) (enemy.getDefense() * 0.5));
+                        System.out.println("Water shield expired, defense returns to normal.");
+                        enemy.setBoon("None");
+                        e.setTurnsRemaining(e.getTurnDuration());
+                    }
+                }
+            }
+
+        }
     }
 
 

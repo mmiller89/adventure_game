@@ -15,8 +15,13 @@ public class Heroes {
 
 	private int maxMana = 10;
 	private int attack = 5;
+	private int maxAttack = 5;
 	private int defense = 3;
+
+	private int maxDefense = 3;
 	private int speed = 2;
+
+	private int maxSpeed = 2;
 
 	private String boon;
 	private String status;
@@ -65,6 +70,9 @@ public class Heroes {
 
 		this.maxHealth = this.health;
 		this.maxMana = this.mana;
+		this.maxAttack = this.attack;
+		this.maxDefense = this.defense;
+		this.maxSpeed = this.speed;
 
 	}
 
@@ -103,16 +111,39 @@ public class Heroes {
 
 	public boolean validateMana(Ability ability){
 		int manaCost = ability.getManaCost();
-		if (this.mana >= manaCost){
+		return this.mana >= manaCost;
+	}
+
+	public boolean validateAndRemoveMana(Ability ability){
+		int manaCost = ability.getManaCost();
+		boolean check = validateMana(ability);
+		if (check){
 			this.setMana(this.getMana() - manaCost);
 			return true;
-		} else {
-			System.out.println(this.getPlayerName() + " is too fatigued (not enough mana)!");
-			return false;
 		}
-
-
+		return false;
 	}
+
+	public void restoreStats(){
+		this.attack = this.maxAttack;
+		this.defense = this.maxDefense;
+		this.speed = this.maxSpeed;
+	}
+
+	public void restoreHPMP(){
+		this.health = this.maxHealth;
+		this.mana = this.maxMana;
+	}
+
+	public void fullRestore(){
+		this.health = this.maxHealth;
+		this.mana = this.maxMana;
+		this.attack = this.maxAttack;
+		this.defense = this.maxDefense;
+		this.speed = this.maxSpeed;
+	}
+
+
 
 	public int getAttack() {
 		return attack;
@@ -163,6 +194,7 @@ public class Heroes {
 	}
 
 	public String getBoon() {
+
 		return boon;
 	}
 
@@ -176,5 +208,29 @@ public class Heroes {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public int getMaxAttack() {
+		return maxAttack;
+	}
+
+	public void setMaxAttack(int maxAttack) {
+		this.maxAttack = maxAttack;
+	}
+
+	public int getMaxDefense() {
+		return maxDefense;
+	}
+
+	public void setMaxDefense(int maxDefense) {
+		this.maxDefense = maxDefense;
+	}
+
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
 	}
 }

@@ -6,7 +6,7 @@ public class DamageCalculator {
 
     public static int damageCalculator(Heroes player, Enemy enemy, Ability ability, String attackingEntity){
 
-        //Clear boons with certain turn durations.
+
 
         double damageVariance = ThreadLocalRandom.current().nextDouble(0.9, 1.1);
         //Player using ability.
@@ -14,14 +14,17 @@ public class DamageCalculator {
             int damage = (int) (ability.getBaseDamage() + (player.getAttack() * damageVariance * ability.typeModifier(enemy)) - enemy.getDefense());
             double afterEffects = validateAfterEffects(player, enemy, ability, damage, attackingEntity);
             damage = (int) (damage * afterEffects);
-            return Math.max(damage, 0);
+            return Math.max(damage, 1);
         }
         //Enemy using ability (not available yet).
-        else if (attackingEntity.equals("enemy")) {
-            int damage = (int) (ability.getBaseDamage() + (enemy.getAttack() * damageVariance) - player.getDefense());
-            double afterEffects = validateAfterEffects(player, enemy, ability, damage, attackingEntity);
-            damage = (int) (damage * afterEffects);
-            return Math.max(damage, 0);
+            else if (attackingEntity.equals("enemy")) {
+
+                validateBuff(player, enemy, ability, attackingEntity);
+
+                int damage = (int) (ability.getBaseDamage() + (enemy.getAttack() * damageVariance) - player.getDefense());
+                double afterEffects = validateAfterEffects(player, enemy, ability, damage, attackingEntity);
+                damage = (int) (damage * afterEffects);
+                return Math.max(damage, 1);
         }
         return 0;
     }
@@ -38,13 +41,9 @@ public class DamageCalculator {
                 player.setBoon("None");
             }
             System.out.println(player.getPlayerName() + " restored " + manaRestored + " mana.");
-            return Math.max(damage, 0);
+            return Math.max(damage, 1);
         }
-        //Enemy using normal attack.
-        else if (attackingEntity.equals("enemy")){
-            int damage = (int) ((enemy.getAttack() * damageVariance) - player.getDefense());
-            return Math.max(damage, 0);
-        }
+
         return 0;
     }
 
@@ -56,7 +55,7 @@ public class DamageCalculator {
     public static double validateAfterEffects(Heroes player, Enemy enemy, Ability ability, int damage, String attackingEntity){
         if (attackingEntity.equals("player")){
             //For ability Absorb Life
-            if (ability.getAdditionalEffect().contains("absorb_hp")){
+            if (ability.getAdditionalEffect().contains("absorb life")){
                 int restoredHealth = damage * 4;
                 int newHealth = player.getHealth() + restoredHealth;
                 player.setHealth(Math.min(newHealth, player.getMaxHealth()));
@@ -67,32 +66,46 @@ public class DamageCalculator {
             //For ability Absorb Life
 
             //For ability Slice and Dice
-            if (ability.getAdditionalEffect().contains("speed_double") && player.getSpeed() > enemy.getSpeed()){
+            if (ability.getAdditionalEffect().contains("slice and dice") && player.getSpeed() > enemy.getSpeed()){
                 System.out.println(player.getPlayerName() + " is faster, damage doubled!");
                 return 2.0;
-            } else if (ability.getAdditionalEffect().contains("speed_double") && player.getSpeed() < enemy.getSpeed()){
+            } else if (ability.getAdditionalEffect().contains("slice and dice") && player.getSpeed() < enemy.getSpeed()){
                 System.out.println(player.getPlayerName() + " is slower, damage halved!");
                 return 0.5;
             }
             //For ability Slice and Dice
 
             //For ability Cripple
-            if (ability.getAdditionalEffect().contains("reduce_speed")){
+            if (ability.getAdditionalEffect().contains("cripple")){
                 enemy.setSpeed(Math.max(enemy.getSpeed() - 1, 0));
                 System.out.println(enemy.getName() + "'s speed reduced by 1 to " + enemy.getSpeed() + ".");
             }
             //For ability Cripple
 
-            if (ability.getAdditionalEffect().contains("enhance_attack")){
+            if (ability.getAdditionalEffect().contains("heroic strike")){
                 player.setBoon("Enhance");
             }
-            if (ability.getAdditionalEffect().contains("weakened")){
+            if (ability.getAdditionalEffect().contains("crushing blow")){
                 int reducedAttack = player.getAttack() * 0.20 >= 1 ? (int) (player.getAttack() * 0.20) : 1;
                 player.setAttack(player.getAttack() - reducedAttack);
                 System.out.println("A fatiguing blow reduces " + player.getPlayerName() + "'s attack by " + reducedAttack + ".");
             }
         }
         return 1.0;
+
+    }
+
+    public static void validateBuff(Heroes player, Enemy enemy, Ability ability, String entity){
+
+        if (entity.equals("enemy")){
+            if (ability.getAdditionalEffect().equals("water shield") && enemy.getBoon().equals("None")){
+                ability.setTurnsRemaining(ability.getTurnDuration());
+                System.out.println(enemy.getName() + " coats itself in a watery barrier! Defense increased!");
+                enemy.setBoon("Water Shield");
+                enemy.setDefense(enemy.getDefense() * 2);
+
+            }
+        }
 
     }
 

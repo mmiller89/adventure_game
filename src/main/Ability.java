@@ -10,16 +10,24 @@ public class Ability {
     private int manaCost;
     private int baseDamage;
 
+    private String flavorText;
+
     private String additionalEffect;
 
+    private int turnsRemaining;
+    private int turnDuration;
+
     public Ability (String abilityName, String description, String attackType, int manaCost, int baseDamage,
-                    String additionalEffect){
+                    String additionalEffect, String flavorText, int turnDuration, int turnsRemaining){
         this.abilityName = abilityName;
         this.description = description;
         this.attackType = attackType;
         this.manaCost = manaCost;
         this.baseDamage = baseDamage;
         this.additionalEffect = additionalEffect;
+        this.flavorText = flavorText;
+        this.turnDuration = turnDuration;
+        this.turnsRemaining = turnsRemaining;
     }
 
     public String getAbilityName() {
@@ -105,5 +113,29 @@ public class Ability {
             return 1.25;
         }
         return 1.0;
+    }
+
+    public String getFlavorText() {
+        return flavorText;
+    }
+
+    public void setFlavorText(String flavorText) {
+        this.flavorText = flavorText;
+    }
+
+    public int getTurnDuration() {
+        return turnDuration;
+    }
+
+    public void setTurnDuration(int turnDuration) {
+        this.turnDuration = turnDuration;
+    }
+
+    public int getTurnsRemaining() {
+        return turnsRemaining;
+    }
+
+    public void setTurnsRemaining(int turnsRemaining) {
+        this.turnsRemaining = turnsRemaining;
     }
 }
