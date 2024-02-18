@@ -12,6 +12,10 @@ public class DamageCalculator {
         double damageVariance = ThreadLocalRandom.current().nextDouble(0.9, 1.1);
         //Player using ability.
         if (attackingEntity.equals("player")) {
+
+            validateBuff(player, enemy, ability, attackingEntity);
+
+
             int damage = (int) (ability.getBaseDamage() + (player.getAttack() * damageVariance * ability.typeModifier(enemy)) - enemy.getDefense());
             double afterEffects = validateAfterEffects(player, enemy, ability, damage, attackingEntity);
             damage = (int) (damage * afterEffects);
@@ -28,6 +32,16 @@ public class DamageCalculator {
                 if (player.isDefending()){
                     damage = (int) (damage * 0.25);
                 }
+                if (player.getBoon().equals("Mana Shield")){
+                    damage = (int) (damage * 0.5);
+                    int manaLost = (int) (player.getMana() * 0.10);
+                    player.setMana(player.getMana() - manaLost);
+                    System.out.println(player.getPlayerName() + " loses " + manaLost + " mana due to Mana Shield absorbing damage!");
+                    if (player.getMana() <= 0){
+                        System.out.print("Mana is now 0. Mana Shield breaks!");
+                        player.setBoon("None");
+                    }
+                }
                 return Math.max(damage, 1);
         }
         return 0;
@@ -35,9 +49,9 @@ public class DamageCalculator {
 
     public static int damageCalculator(Heroes player, Enemy enemy, String attackingEntity){
         double damageVariance = ThreadLocalRandom.current().nextDouble(0.9, 1.1);
-        //Mage using normal attack - restore 10% of Max MP.
+        //Mage using normal attack - restore 20% of Max MP.
         if (attackingEntity.equals("player") && player.heroClass.getClassName().equals("Mage")) {
-            int manaRestored = Math.max((int)(player.getMaxMana() * 0.10), 1);
+            int manaRestored = Math.max((int)(player.getMaxMana() * 0.20), 1);
             player.setMana(Math.min(player.getMana() + manaRestored, player.getMaxMana()));
             int damage = (int) ((player.getAttack() * damageVariance) - enemy.getDefense());
             System.out.println(player.getPlayerName() + " restores " + manaRestored + " mana.");
@@ -81,16 +95,30 @@ public class DamageCalculator {
     //This class handles any final modifiers to damage variable. These usually come from skills. The class can also do extra effects, like Absorb Life.
     public static double validateAfterEffects(Heroes player, Enemy enemy, Ability ability, int damage, String attackingEntity){
         if (attackingEntity.equals("player")){
-            //For ability Absorb Life
-            if (ability.getAdditionalEffect().contains("absorb life")){
-                int restoredHealth = damage * 3;
-                int newHealth = player.getHealth() + restoredHealth;
-                player.setHealth(Math.min(newHealth, player.getMaxHealth()));
-                System.out.println();
-                System.out.println(player.getPlayerName() + " drains " + restoredHealth + " health from " + enemy.getName() + " with " + ability.getAbilityName() + "!");
-                System.out.println();
+            //For ability Focus
+            if (player.getBoon().equals("Focus") && enemy.getStatus().equals("Frostbite") && ability.getAdditionalEffect().contains("frostbolt")){
+                System.out.println(enemy.getName() + " is frostbitten and vulnerable!");
+                enemy.setStatus("None");
+                return 3.0;
             }
-            //For ability Absorb Life
+            if (player.getBoon().equals("Focus")) {
+                return 1.5;
+            }
+            //For ability Focus
+
+            //For ability Frostbolt
+            if (ability.getAdditionalEffect().contains("frostbolt")){
+
+                if (enemy.getStatus().equals("Frostbite")){
+                    System.out.println(enemy.getName() + " is frostbitten and vulnerable!");
+                    enemy.setStatus("None");
+                    return 2.0;
+                }
+
+                String coldLevel = enemy.getStatus().equals("None") ? "Chill (1)" : enemy.getStatus().equals("Chill (1)") ? "Chill (2)" : "Frostbite";
+                enemy.setStatus(coldLevel);
+            }
+            //
 
             //For ability Slice and Dice
             if (ability.getAdditionalEffect().contains("slice and dice") && player.getSpeed() > enemy.getSpeed()){
@@ -134,6 +162,15 @@ public class DamageCalculator {
     //This class runs before damage calculation, putting buffs on the attacking party as needed.
     //Sets turn duration to max.
     public static void validateBuff(Heroes player, Enemy enemy, Ability ability, String entity){
+
+        if(entity.equals("player")){
+            if (ability.getAdditionalEffect().equals("focus") && player.getBoon().equals("None")){
+                player.setBoon("Focus");
+            } else if (ability.getAdditionalEffect().equals("focus") && player.getBoon().equals("Mana Shield")){
+                System.out.println("Mana shield dissipates!");
+                player.setBoon("Focus");
+            }
+        }
 
         if (entity.equals("enemy")){
             if (ability.getAdditionalEffect().equals("water shield") && enemy.getBoon().equals("None")){

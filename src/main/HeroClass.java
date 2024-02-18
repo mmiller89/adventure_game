@@ -24,15 +24,15 @@ public class HeroClass {
 	private Ability crushingBlow = new Ability("Crushing Blow",
 			"Crush an enemy. High power, but hero loses 40% attack for remainder of battle.", "Crushing", 0, 10,
 			"crushing blow", "A devastating blow to you, fiend!", -1, -1);
-	private Ability iceBolt = new Ability(
-			"Icebolt",
-			"Assault a foe with a frosty ice lance.", "Ice", 5, 8,
-			"none", "", -1, -1);
-	//maybe icebolt can reduce enemy attack by 10%?
-	private Ability lifeSteal = new Ability(
-			"Absorb Life",
-			"Steals a small amount of health from enemy. Non-elemental magic.", "Magic", 3, 1,
-			"absorb life", "", -1, -1);
+	private Ability frostBolt = new Ability(
+			"Frostbolt",
+			"Assault a foe with a frosty ice lance. Each hit increases cold level. At level 3, enemy gains Frostbite, taking double damage from this spell.", "Ice", 3, 6,
+			"frostbolt", "", -1, -1);
+
+	private Ability focus = new Ability(
+			"Focus",
+			"Gain 'Focused' boon, increasing damage of next attack spell by 50%. Lose Mana Shield if active.", "Non-Damage", 2, 0,
+			"focus", "", -1, -1);
 	private Ability sliceAndDice = new Ability(
 			"Slice and Dice",
 			"Dashes to target and slashes. Does quadruple damage if speed is higher than enemy, or half damage if lower.", "Slashing", 10, 3,
@@ -49,8 +49,8 @@ public class HeroClass {
 			abilityList.add(crushingBlow);
 		}
 		if (this.className.equals("Mage")){
-			abilityList.add(iceBolt);
-			abilityList.add(lifeSteal);
+			abilityList.add(frostBolt);
+			abilityList.add(focus);
 		}
 		if (this.className.equals("Thief")){
 			abilityList.add(sliceAndDice);

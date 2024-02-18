@@ -58,7 +58,7 @@ public class Heroes {
 		else if (this.heroClass.getClassName().equals("Thief")) {
 			this.heroClass.setHealthMod(1.5);
 			this.heroClass.setManaMod(2.0);
-			this.heroClass.setAttackMod(0.5);
+			this.heroClass.setAttackMod(1.0);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(2.0);
 		}

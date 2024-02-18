@@ -57,6 +57,7 @@ public class BattleTurnManager{
         boolean attackSuccess = false;
         player.setDefending(false);
         int choice;
+        int chosenAction = -1;
 
         System.out.println();
         System.out.println("Turn " + currentTurn);
@@ -70,7 +71,7 @@ public class BattleTurnManager{
         }
         int iterator = 3;
 
-        System.out.println("2 - Defend");
+        System.out.println(player.heroClass.getClassName().equals("Mage") ? "2 - Mana Shield" : "2 - Defend");
         for (Ability a : ability_list) {
             //Displays ability with mana cost if it has one.
             String displayAbility = a.getManaCost() > 0 ? iterator + " - " + a.getAbilityName() + " | Mana Cost: " + a.getManaCost() : iterator + " - " + a.getAbilityName();
@@ -88,14 +89,21 @@ public class BattleTurnManager{
 
         if (choice > 0 && choice <= ability_list.size() + 2){
 
-            int chosenAction = choice - 3;
+            chosenAction = choice - 3;
 
             if (choice == 1) {
                 damage = DamageCalculator.damageCalculator(player, enemy, "player");
                 chosenAbility = "a weapon";
                 attackSuccess = true;
             } else if (choice == 2){
-                player.setDefending(true);
+                if (player.heroClass.getClassName().equals("Mage") && player.getBoon().equals("Mana Shield")){
+                    player.setBoon("None");
+                    System.out.println(player.getPlayerName() + " removes Mana Shield!");
+                } else if (player.heroClass.getClassName().equals("Mage") && player.getBoon().equals("None")){
+                    player.setBoon("Mana Shield");
+                    System.out.println(player.getPlayerName() + " activates Mana Shield!");
+                } else { player.setDefending(true); }
+
             } else if (player.validateAndRemoveMana(ability_list.get(chosenAction))){
                 damage = DamageCalculator.damageCalculator(player, enemy, ability_list.get(chosenAction), "player");
                 chosenAbility = ability_list.get(chosenAction).getAbilityName();
@@ -107,10 +115,14 @@ public class BattleTurnManager{
 
 
         if (attackSuccess){
-            System.out.println(player.getPlayerName() + " does " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
-            enemy.setHealth(enemy.getHealth() - damage);
+            if (!ability_list.get(chosenAction).getAttackType().equals("Non-Damage")){
+                System.out.println(player.getPlayerName() + " does " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
+                enemy.setHealth(enemy.getHealth() - damage);
+            }
         } else if (player.isDefending()){
             System.out.println(player.getPlayerName() + " enters a defensive stance!");
+        } else if (player.getBoon().equals("Mana Shield")) {
+            System.out.println(player.getPlayerName() + " bides time.");
         } else {
             System.out.println(player.getPlayerName() + "'s attack fails!");
         }
@@ -119,7 +131,7 @@ public class BattleTurnManager{
     }
     public static void enemyAttack(Heroes player, Enemy enemy, List<Ability> enemy_ability_list, int currentTurn){
         Random rand = new Random();
-        int random = rand.nextInt(4);
+        int random = rand.nextInt(2);
 
         Ability chosenAbility = enemy.getAbilityInList(EnemyAI.chooseAbility(player, enemy, currentTurn, enemy_ability_list));
         System.out.println();
@@ -129,7 +141,7 @@ public class BattleTurnManager{
         } else if (enemy.validateAndRemoveMana(chosenAbility)) {
             System.out.println(enemy.getName() + " uses " + chosenAbility.getAbilityName() + " on " + player.getPlayerName() + "!");
             int damage = DamageCalculator.damageCalculator(player, enemy, chosenAbility, "enemy");
-            if (player.getBoon().equals("Evasion") && random == 3){
+            if (player.getBoon().equals("Evasion") && random == 1){
                 System.out.println(player.getPlayerName() + " dodges the attack due to Evasion!");
             } else {
                 System.out.println(player.getPlayerName() + " takes " + damage + " damage!");

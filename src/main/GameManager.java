@@ -20,8 +20,8 @@ public class GameManager {
             String choice = scn.nextLine().trim().toLowerCase();
             switch (choice) {
                 case "attack" -> {
-                    System.out.println("Attack, which is Option 1 in combat, have unique effects depending on your class");
-                    System.out.println("Warrior - 25% of the damage is restored as health.\nMage - Restores 10% of maximum MP.\nThief - 25% chance to grant Boon 'Evasion', granting a 25% chance to dodge attacks.");
+                    System.out.println("Attack, which is Option 1 in combat, has a unique effects depending on your class");
+                    System.out.println("Warrior - 25% of the damage is restored as health.\nMage - Restores 20% of maximum MP.\nThief - 25% chance to grant Boon 'Evasion', granting a 50% chance to dodge attacks.");
                 }
                 case "abilities" ->
                         System.out.println("Abilities use your MP and have unique effects. Your turn will fail if you don't have enough MP to use them.");
