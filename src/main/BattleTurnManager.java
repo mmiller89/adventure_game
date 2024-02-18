@@ -1,6 +1,7 @@
 package main;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -49,7 +50,14 @@ public class BattleTurnManager{
     }
 
     public static void playerAttack(Heroes player, Enemy enemy, List<Ability> ability_list, int currentTurn) {
+
+        Scanner scn = new Scanner(System.in);
+        int damage = 0;
+        String chosenAbility = null;
+        boolean attackSuccess = false;
+        player.setDefending(false);
         int choice;
+
         System.out.println();
         System.out.println("Turn " + currentTurn);
         System.out.println(player.getPlayerName() + " | " + "Health: " + player.getHealth() + " | " + " Mana: " + player.getMana() + " | " + " Boon: " + player.getBoon() + " | " + " Status: " + player.getStatus());
@@ -60,16 +68,17 @@ public class BattleTurnManager{
         } else {
             System.out.println("1 - Attack");
         }
-        int iterator = 2;
+        int iterator = 3;
+
+        System.out.println("2 - Defend");
         for (Ability a : ability_list) {
-            System.out.println(iterator + " - " + a.getAbilityName() + " | " + "Mana Cost: " + a.getManaCost());
+            //Displays ability with mana cost if it has one.
+            String displayAbility = a.getManaCost() > 0 ? iterator + " - " + a.getAbilityName() + " | Mana Cost: " + a.getManaCost() : iterator + " - " + a.getAbilityName();
+            System.out.println(displayAbility);
             iterator++;
         }
 
-        Scanner scn = new Scanner(System.in);
-        int damage = 0;
-        String chosenAbility = null;
-        boolean attackSuccess = true;
+
 
         try {
             choice = scn.nextInt();
@@ -77,30 +86,40 @@ public class BattleTurnManager{
             choice = -1;
         }
 
-        if (choice > 0 && choice <= ability_list.size() + 1){
+        if (choice > 0 && choice <= ability_list.size() + 2){
+
+            int chosenAction = choice - 3;
+
             if (choice == 1) {
                 damage = DamageCalculator.damageCalculator(player, enemy, "player");
                 chosenAbility = "a weapon";
-            } else if (player.validateAndRemoveMana(ability_list.get(choice - 2))){
-                damage = DamageCalculator.damageCalculator(player, enemy, ability_list.get(choice - 2), "player");
-                chosenAbility = ability_list.get(choice - 2).getAbilityName();
-            } else { attackSuccess = false; }
-        } else { attackSuccess = false; }
+                attackSuccess = true;
+            } else if (choice == 2){
+                player.setDefending(true);
+            } else if (player.validateAndRemoveMana(ability_list.get(chosenAction))){
+                damage = DamageCalculator.damageCalculator(player, enemy, ability_list.get(chosenAction), "player");
+                chosenAbility = ability_list.get(chosenAction).getAbilityName();
+                attackSuccess = true;
+            }
+        }
 
 
 
 
         if (attackSuccess){
-            System.out.println(player.getPlayerName() + " did " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
+            System.out.println(player.getPlayerName() + " does " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
             enemy.setHealth(enemy.getHealth() - damage);
+        } else if (player.isDefending()){
+            System.out.println(player.getPlayerName() + " enters a defensive stance!");
         } else {
-            System.out.println(player.getPlayerName() + "'s attack failed!");
+            System.out.println(player.getPlayerName() + "'s attack fails!");
         }
         scn.nextLine();
 
     }
     public static void enemyAttack(Heroes player, Enemy enemy, List<Ability> enemy_ability_list, int currentTurn){
-
+        Random rand = new Random();
+        int random = rand.nextInt(4);
 
         Ability chosenAbility = enemy.getAbilityInList(EnemyAI.chooseAbility(player, enemy, currentTurn, enemy_ability_list));
         System.out.println();
@@ -110,16 +129,21 @@ public class BattleTurnManager{
         } else if (enemy.validateAndRemoveMana(chosenAbility)) {
             System.out.println(enemy.getName() + " uses " + chosenAbility.getAbilityName() + " on " + player.getPlayerName() + "!");
             int damage = DamageCalculator.damageCalculator(player, enemy, chosenAbility, "enemy");
-            System.out.println(player.getPlayerName() + " takes " + damage + " damage!");
-            player.setHealth(player.getHealth() - damage);
+            if (player.getBoon().equals("Evasion") && random == 3){
+                System.out.println(player.getPlayerName() + " dodges the attack due to Evasion!");
+            } else {
+                System.out.println(player.getPlayerName() + " takes " + damage + " damage!");
+                player.setHealth(player.getHealth() - damage);
+            }
+
         } else {
-            System.out.println(enemy.getName() + " attempted to use its turn, but failed!");
+            System.out.println(enemy.getName() + " attempts to use its turn, but fails!");
         }
 
     }
 
 
-    //Handles turn count down for buffs.
+    //Handles turn count down for buffs. This executes after both enemy and player have a turn, but before win conditions are checked.
     public static void turnPassBoons(Heroes player, Enemy enemy, List<Ability> ability_list, List<Ability> enemy_ability_list){
 
 
@@ -131,9 +155,13 @@ public class BattleTurnManager{
                     //Set individual behavior per each buff.
                     if (enemy.getBoon().equals("Water Shield")){
                         enemy.setDefense((int) (enemy.getDefense() * 0.5));
-                        System.out.println("Water shield expired, defense returns to normal.");
+                        System.out.println("Water shield expired, defense returning to normal.");
                         enemy.setBoon("None");
-                        e.setTurnsRemaining(e.getTurnDuration());
+                    }
+                    if (enemy.getBoon().equals("Charging Up")){
+                        enemy.setAttack((int) (enemy.getAttack() * 0.5));
+                        System.out.println("Engines cooling. Attack reducing to normal.");
+                        enemy.setBoon("None");
                     }
                 }
             }

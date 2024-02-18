@@ -22,7 +22,7 @@ public class HeroClass {
 			"A slashing blow to one target. Enhances weapon, causing your next regular attack to do 200% damage.", "Slashing", 2, 3,
 					"heroic strike", "I'll suffer you no longer!", -1, -1);
 	private Ability crushingBlow = new Ability("Crushing Blow",
-			"Crush an enemy. High power, but hero loses 20% attack for remainder of battle.", "Crushing", 3, 10,
+			"Crush an enemy. High power, but hero loses 40% attack for remainder of battle.", "Crushing", 0, 10,
 			"crushing blow", "A devastating blow to you, fiend!", -1, -1);
 	private Ability iceBolt = new Ability(
 			"Icebolt",
@@ -35,11 +35,11 @@ public class HeroClass {
 			"absorb life", "", -1, -1);
 	private Ability sliceAndDice = new Ability(
 			"Slice and Dice",
-			"Dashes to target and slashes. Does double damage if heroes speed is higher than enemy, or half if lower.", "Slashing", 2, 3,
+			"Dashes to target and slashes. Does quadruple damage if speed is higher than enemy, or half damage if lower.", "Slashing", 10, 3,
 			"slice and dice", "", -1, -1);
 	private Ability cripple = new Ability(
 			"Cripple",
-			"A piercing stab that reduces enemy speed.", "Piercing", 3, 3,
+			"A piercing stab. Consume 'Evasion' status to restore mana and reduce enemy speed by 30%.", "Piercing", 0, 2,
 			"cripple", "", -1, -1);
 
 	public HeroClass(String className){

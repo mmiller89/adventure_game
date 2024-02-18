@@ -28,7 +28,9 @@ public class Enemy {
 
     private Set<Ability> enemyAbilityList = new LinkedHashSet<>();
 
-
+    //additionalEffect must be a lower case version of abilityName.
+    //Buffs and abilities that buff/hinder instead of damage must say "Non-Damage" in attack type.
+    //Damage attacks should have turns both -1.
     private Ability regularAttack = new Ability
             ("attack",
                     "", "None", 0, 1,
@@ -47,12 +49,12 @@ public class Enemy {
                     "water shield", "", 2, 2);
     private Ability chargeUp = new Ability
             ("Charge",
-                    "", "None", 0, 0,
-                    "charge", "", -1, -1);
+                    "", "Non-Damage", 5, 0,
+                    "charge", "", 2, 2);
     private Ability shadowBolt = new Ability
             ("Shadowbolt",
-                    "", "None", 2, 3,
-                    "shadowbolt", "", -1, -1);
+                    "", "None", 5, 4,
+                    "fear", "", -1, -1);
 
     public Enemy(String name, int health, int mana, int attack, int defense, int speed, String typeOne, String typeTwo, String boon, String status, String difficulty){
         this.name = name;
@@ -121,6 +123,8 @@ public class Enemy {
         this.attack = this.maxAttack;
         this.defense = this.maxDefense;
         this.speed = this.maxSpeed;
+        this.boon = "None";
+        this.status = "None";
     }
 
     public String getName() {

@@ -26,6 +26,8 @@ public class Heroes {
 	private String boon;
 	private String status;
 
+	private boolean isDefending = false;
+
 	//Inherit className from HeroClass.java
 	public Heroes(String playerName, HeroClass heroClass, String boon, String status){
 		this.playerName = playerName;
@@ -49,14 +51,14 @@ public class Heroes {
 		else if (this.heroClass.getClassName().equals("Mage")) {
 			this.heroClass.setHealthMod(1.0);
 			this.heroClass.setManaMod(3.0);
-			this.heroClass.setAttackMod(1.0);
+			this.heroClass.setAttackMod(0.5);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(1.0);
 		}
 		else if (this.heroClass.getClassName().equals("Thief")) {
 			this.heroClass.setHealthMod(1.5);
-			this.heroClass.setManaMod(1.5);
-			this.heroClass.setAttackMod(1.5);
+			this.heroClass.setManaMod(2.0);
+			this.heroClass.setAttackMod(0.5);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(2.0);
 		}
@@ -135,12 +137,18 @@ public class Heroes {
 		this.mana = this.maxMana;
 	}
 
+	public void restoreMP(){
+		this.mana = this.maxMana;
+	}
+
 	public void fullRestore(){
 		this.health = this.maxHealth;
 		this.mana = this.maxMana;
 		this.attack = this.maxAttack;
 		this.defense = this.maxDefense;
 		this.speed = this.maxSpeed;
+		this.boon = "None";
+		this.status = "None";
 	}
 
 
@@ -232,5 +240,13 @@ public class Heroes {
 
 	public void setMaxSpeed(int maxSpeed) {
 		this.maxSpeed = maxSpeed;
+	}
+
+	public boolean isDefending() {
+		return isDefending;
+	}
+
+	public void setDefending(boolean defending) {
+		isDefending = defending;
 	}
 }

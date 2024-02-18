@@ -10,6 +10,38 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GameManager {
 
+    public static void guide(){
+        Scanner scn = new Scanner(System.in);
+        boolean looping = true;
+        System.out.println("With a thud, you place the heavy book down in front of you.");
+        while (looping) {
+            System.out.println("What chapter will you read? Type 'close' to put the book away.");
+            System.out.println("Attack | Abilities | Defending | Types");
+            String choice = scn.nextLine().trim().toLowerCase();
+            switch (choice) {
+                case "attack" -> {
+                    System.out.println("Attack, which is Option 1 in combat, have unique effects depending on your class");
+                    System.out.println("Warrior - 25% of the damage is restored as health.\nMage - Restores 10% of maximum MP.\nThief - 25% chance to grant Boon 'Evasion', granting a 25% chance to dodge attacks.");
+                }
+                case "abilities" ->
+                        System.out.println("Abilities use your MP and have unique effects. Your turn will fail if you don't have enough MP to use them.");
+                case "defending" ->
+                        System.out.println("Defending reduces damage from the enemy's next attack by 75%. Useful to block a wind up attack!");
+                case "types" ->
+                        System.out.println("Organic - 25% extra damage from Fire\nMachine - 25% extra damage from Lightning\nElemental/Mystic - 25% extra damage from Ice\nUnarmored - 25% extra damage from Piercing\nArmored - 25% extra damage from Crushing\nBare-Armed - 25% extra damage from Slashing");
+                case "close" -> {
+                    System.out.println("You close the book, placing it back in your pack.");
+                    looping = false;
+                }
+            }
+            System.out.println();
+        }
+
+
+
+
+    }
+
     public static void adventure(Heroes player){
         System.out.println("Adventures coming soon!");
     }

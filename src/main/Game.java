@@ -78,7 +78,7 @@ public class Game {
 			System.out.println("Ability List: ");
 			player.listAbilities();
 
-			System.out.println("Are you happy with this?");
+			System.out.println("Are you happy with this class?");
 			System.out.println("1 - Yes\n2 - No");
 			try {
 				intChoice = scn.nextInt();
@@ -141,7 +141,7 @@ public class Game {
 				GameManager.adventure(player);
 			}
 			else if (intChoice == 4){
-				System.out.println("Coming soon.");
+				GameManager.guide();
 			}
 			else if (intChoice == 5){
 				looping = false;
