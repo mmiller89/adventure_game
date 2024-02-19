@@ -62,18 +62,22 @@ public class Game {
 			}
 			classEntry = classEntry.substring(0,1).toUpperCase() + classEntry.substring(1);
 			HeroClass classChoice = new HeroClass(classEntry);
-			player = new Heroes(nameChoice,classChoice, "None", "None");
+			player = new Heroes(nameChoice, classChoice, "None", "None", 10);
 
 			System.out.println("Welcome " + player.getPlayerName() + "!");
 			System.out.println("You have chosen to be a " + player.heroClass.getClassName() + "?");
 			System.out.println("Calculating stats...\n");
-			TimeUnit.SECONDS.sleep(2);
 
-			player.setStats();
+			player.initialize();
+
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println(player.getPlayerName() + " equips " + player.weapon.getWeaponName() + " and " + player.armor.getArmorName() + ".");
+			System.out.println();
+
 			player.listStats();
 
 			System.out.println("\nLoading skills and abilities...\n");
-			TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(1);
 
 			System.out.println("Ability List: ");
 			player.listAbilities();
@@ -98,7 +102,7 @@ public class Game {
 		intChoice = 0;
 
 		while (looping){
-			System.out.println("\n*****\n1 - Arena\n2 - Shop\n3 - Travel\n4 - Adventure Guide\n5 - Exit (Your hero will not be saved! This is a planned update TBD.)\n*****");
+			System.out.println("\n*****\n1 - Arena\n2 - Shop\n3 - Travel\n4 - Adventure Guide\n5 - Hero Stats\n6 - Exit (Your hero will not be saved! This is a planned update TBD.)\n*****");
 			try {
 				intChoice = scn.nextInt();
 			}
@@ -144,6 +148,9 @@ public class Game {
 				GameManager.guide();
 			}
 			else if (intChoice == 5){
+				GameManager.heroStats(player);
+			}
+			else if (intChoice == 6){
 				looping = false;
 			}
 			else {
@@ -166,9 +173,9 @@ public class Game {
 	}
 
 	public static List<Enemy> makeArenaEnemyArray(Set<Enemy> enemy_list){
-		Enemy goblin = new Enemy("Goblin", 30, 10, 4, 2, 5, "Organic", "Unarmored", "None", "None", "Easy");
-		Enemy waterElemental = new Enemy("Water Elemental", 50, 25, 6, 4, 5, "Elemental", "None", "None", "None", "Medium");
-		Enemy demonMachine = new Enemy("Possessed Machine", 125, 35, 18, 12, 9, "Machine", "None", "None", "None", "Hard");
+		Enemy goblin = new Enemy("Goblin", 30, 10, 4, 2, 5, "Organic", "Unarmored", "None", "None", "Easy", 10, 2);
+		Enemy waterElemental = new Enemy("Water Elemental", 50, 25, 6, 4, 5, "Elemental", "None", "None", "None", "Medium", 25, 5);
+		Enemy demonMachine = new Enemy("Possessed Machine", 125, 35, 18, 12, 9, "Machine", "None", "None", "None", "Hard", 50, 10);
 		enemy_list.add(goblin);
 		enemy_list.add(waterElemental);
 		enemy_list.add(demonMachine);

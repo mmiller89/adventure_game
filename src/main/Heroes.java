@@ -1,6 +1,8 @@
 package main;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Heroes {
 	
@@ -8,6 +10,9 @@ public class Heroes {
 
 	private String playerName;
 	HeroClass heroClass;
+
+	Weapon weapon;
+	Armor armor;
     private int health = 20;
 
 	private int maxHealth = 20;
@@ -26,27 +31,43 @@ public class Heroes {
 	private String boon;
 	private String status;
 
+	private int gold;
+
+	private int level;
+	private int experience;
+	private int expNext;
+
+	//equipmentList should ONLY hold Weapon or Armor classes.
+	private Set<Object> equipmentList = new LinkedHashSet<>();
+
 	private boolean isDefending = false;
 
 	//Inherit className from HeroClass.java
-	public Heroes(String playerName, HeroClass heroClass, String boon, String status){
+	public Heroes(String playerName, HeroClass heroClass, String boon, String status, int gold){
 		this.playerName = playerName;
 		this.heroClass = heroClass;
 		this.boon = boon;
 		this.status = status;
+		this.gold = gold;
 
 	}
 
 
 	//use modifiers from HeroClass.java to adjust stats based on hero class chosen by player.
-	public void setStats() {
-		//The if statement is not being recognized. All mods being set as 0 regardless.
+	//Also sets initial equipment and level/experience.
+	public void initialize() {
+
 		if (this.heroClass.getClassName().equals("Warrior")) {
 			this.heroClass.setHealthMod(2.0);
 			this.heroClass.setManaMod(1.0);
 			this.heroClass.setAttackMod(1.5);
 			this.heroClass.setDefenseMod(1.5);
 			this.heroClass.setSpeedMod(1.0);
+
+			this.weapon = new Weapon(2,-1,"Broadsword");
+			this.armor = new Armor(5,2, "Mail Armor");
+			equipmentList.add(this.weapon);
+			equipmentList.add(this.armor);
 		}
 		else if (this.heroClass.getClassName().equals("Mage")) {
 			this.heroClass.setHealthMod(1.0);
@@ -54,6 +75,10 @@ public class Heroes {
 			this.heroClass.setAttackMod(0.5);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(1.0);
+			this.weapon  = new Weapon(1,0,"Oak Staff");
+			this.armor = new Armor(0,1, "Cloth Robes");
+			equipmentList.add(this.weapon);
+			equipmentList.add(this.armor);
 		}
 		else if (this.heroClass.getClassName().equals("Thief")) {
 			this.heroClass.setHealthMod(1.5);
@@ -61,7 +86,12 @@ public class Heroes {
 			this.heroClass.setAttackMod(1.0);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(2.0);
+			this.weapon = new Weapon(1,1,"Dagger");
+			this.armor = new Armor(5,1, "Leather Tunic");
+			equipmentList.add(this.weapon);
+			equipmentList.add(this.armor);
 		}
+
 		
 		//This code functions as expected.
         this.health = (int) (this.health * this.heroClass.getHealthMod());
@@ -75,15 +105,20 @@ public class Heroes {
 		this.maxAttack = this.attack;
 		this.maxDefense = this.defense;
 		this.maxSpeed = this.speed;
+		this.level = 1;
+		this.experience = 0;
+		this.expNext = 100;
+
+		equipmentOn();
 
 	}
 
 	public void listStats(){
-		System.out.println("Health: " + this.health);
-		System.out.println("Mana: " + this.mana);
-		System.out.println("Attack: " + this.attack);
-		System.out.println("Defense: " + this.defense);
-		System.out.println("Speed: " + this.speed);
+		System.out.println("Health: " + this.maxHealth);
+		System.out.println("Mana: " + this.maxMana);
+		System.out.println("Attack: " + this.maxAttack);
+		System.out.println("Defense: " + this.maxDefense);
+		System.out.println("Speed: " + this.maxSpeed);
 
 	}
 
@@ -151,6 +186,44 @@ public class Heroes {
 		this.status = "None";
 	}
 
+		//Initializing equipment on character creation.
+	public void equipmentOn(){
+		this.maxAttack += this.weapon.getAttackPower();
+		this.maxSpeed += this.weapon.getSpeed();
+		this.maxHealth += this.armor.getHealthIncrease();
+		this.maxDefense += this.armor.getDefenseIncrease();
+	}
+
+	//When upgrading equipment.
+
+	public void equipmentOn(Weapon newEquip){
+		if (newEquip != null){
+			this.maxAttack -= this.weapon.getAttackPower();
+			this.maxAttack += newEquip.getAttackPower();
+			this.maxSpeed -= this.weapon.getSpeed();
+			this.maxSpeed += newEquip.getSpeed();
+
+			equipmentList.remove(this.weapon);
+			equipmentList.add(newEquip);
+			//Failsafe to ensure stats never drop below 0.
+            this.maxAttack = Math.max(this.maxAttack, 0);
+			this.maxSpeed = Math.max(this.maxSpeed, 0);
+		}
+	}
+
+	public void equipmentOn(Armor newEquip){
+		this.maxDefense -= this.armor.getDefenseIncrease();
+		this.maxDefense += newEquip.getDefenseIncrease();
+		this.maxHealth -= this.armor.getHealthIncrease();
+		this.maxHealth += newEquip.getHealthIncrease();
+		equipmentList.remove(this.armor);
+		equipmentList.add(newEquip);
+
+		//Failsafe to ensure stats never drop below 0.
+		this.maxDefense = Math.max(this.maxDefense, 0);
+		this.maxHealth = Math.max(this.maxHealth, 1);
+
+	}
 
 
 	public int getAttack() {
@@ -248,5 +321,37 @@ public class Heroes {
 
 	public void setDefending(boolean defending) {
 		isDefending = defending;
+	}
+
+	public int getGold() {
+		return gold;
+	}
+
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
+	public int getExpNext() {
+		return expNext;
+	}
+
+	public void setExpNext(int expNext) {
+		this.expNext = expNext;
 	}
 }

@@ -26,6 +26,10 @@ public class Enemy {
 
     private String difficulty;
 
+    private int experienceValue;
+
+    private int goldValue;
+
     private Set<Ability> enemyAbilityList = new LinkedHashSet<>();
 
     //additionalEffect must be a lower case version of abilityName.
@@ -56,7 +60,7 @@ public class Enemy {
                     "", "None", 5, 4,
                     "fear", "", -1, -1);
 
-    public Enemy(String name, int health, int mana, int attack, int defense, int speed, String typeOne, String typeTwo, String boon, String status, String difficulty){
+    public Enemy(String name, int health, int mana, int attack, int defense, int speed, String typeOne, String typeTwo, String boon, String status, String difficulty, int experienceValue, int goldValue){
         this.name = name;
         this.health = health;
         this.maxHealth = health;
@@ -73,6 +77,8 @@ public class Enemy {
         this.boon = boon;
         this.status = status;
         this.difficulty = difficulty;
+        this.experienceValue = experienceValue;
+        this.goldValue = goldValue;
 
 
         this.enemyAbilityList.add(regularAttack);
@@ -264,5 +270,21 @@ public class Enemy {
 
     public void setMaxSpeed(int maxSpeed) {
         this.maxSpeed = maxSpeed;
+    }
+
+    public int getExperienceValue() {
+        return experienceValue;
+    }
+
+    public void setExperienceValue(int experienceValue) {
+        this.experienceValue = experienceValue;
+    }
+
+    public int getGoldValue() {
+        return goldValue;
+    }
+
+    public void setGoldValue(int goldValue) {
+        this.goldValue = goldValue;
     }
 }

@@ -32,9 +32,12 @@ public class BattleTurnManager{
         if (enemyDeath){
             System.out.println();
             System.out.println("You have vanquished enemy " + enemy.getName() + "!");
-            //Player is restored in arena fights.
-            player.setHealth(player.getMaxHealth());
-            player.setMana(player.getMaxMana());
+            player.setGold(player.getGold() + enemy.getGoldValue());
+            player.setExperience(player.getExperience() + enemy.getExperienceValue());
+            System.out.println(player.getPlayerName() + " earns " + enemy.getExperienceValue() + " experience and " + enemy.getGoldValue() + " gold!");
+            //if (player.getExperience() >= player.getExpNext()){
+            //player.levelUp();
+            //}
             return "battle over";
         }
         if (playerDeath) {
@@ -57,7 +60,6 @@ public class BattleTurnManager{
         boolean attackSuccess = false;
         player.setDefending(false);
         int choice;
-        int chosenAction = -1;
 
         System.out.println();
         System.out.println("Turn " + currentTurn);
@@ -87,13 +89,13 @@ public class BattleTurnManager{
             choice = -1;
         }
 
-        if (choice > 0 && choice <= ability_list.size() + 2){
+        int chosenAction = choice - 3;
 
-            chosenAction = choice - 3;
+        if (choice > 0 && choice <= ability_list.size() + 2){
 
             if (choice == 1) {
                 damage = DamageCalculator.damageCalculator(player, enemy, "player");
-                chosenAbility = "a weapon";
+                chosenAbility = player.weapon.getWeaponName();
                 attackSuccess = true;
             } else if (choice == 2){
                 if (player.heroClass.getClassName().equals("Mage") && player.getBoon().equals("Mana Shield")){
@@ -115,10 +117,8 @@ public class BattleTurnManager{
 
 
         if (attackSuccess){
-            if (!ability_list.get(chosenAction).getAttackType().equals("Non-Damage")){
-                System.out.println(player.getPlayerName() + " does " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
-                enemy.setHealth(enemy.getHealth() - damage);
-            }
+            System.out.println(player.getPlayerName() + " does " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
+            enemy.setHealth(enemy.getHealth() - damage);
         } else if (player.isDefending()){
             System.out.println(player.getPlayerName() + " enters a defensive stance!");
         } else if (player.getBoon().equals("Mana Shield")) {

@@ -72,6 +72,19 @@ public class GameManager {
         }
     }
 
+    public static void heroStats(Heroes player){
+        System.out.println("**********");
+        System.out.println("Name: " + player.getPlayerName());
+        System.out.println("Class: " + player.heroClass.getClassName());
+        System.out.println("Level: " + player.getLevel() + " | Experience: " + player.getExperience() + " / " + player.getExpNext()  + " | Gold: " + player.getGold());
+        System.out.println("Weapon: " + player.weapon.getWeaponName() + " | Armor: " + player.armor.getArmorName() + "\n");
+        player.listStats();
+        System.out.println();
+        player.listAbilities();
+        System.out.println("**********");
+
+    }
+
 
 
 }
