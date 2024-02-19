@@ -173,9 +173,9 @@ public class Game {
 	}
 
 	public static List<Enemy> makeArenaEnemyArray(Set<Enemy> enemy_list){
-		Enemy goblin = new Enemy("Goblin", 30, 10, 4, 2, 5, "Organic", "Unarmored", "None", "None", "Easy", 10, 2);
-		Enemy waterElemental = new Enemy("Water Elemental", 50, 25, 6, 4, 5, "Elemental", "None", "None", "None", "Medium", 25, 5);
-		Enemy demonMachine = new Enemy("Possessed Machine", 125, 35, 18, 12, 9, "Machine", "None", "None", "None", "Hard", 50, 10);
+		Enemy goblin = new Enemy("Goblin", 30, 10, 5, 3, 5, "Organic", "Unarmored", "None", "None", "Easy", 10, 1);
+		Enemy waterElemental = new Enemy("Water Elemental", 50, 25, 7, 5, 5, "Elemental", "None", "None", "None", "Medium", 25, 5);
+		Enemy demonMachine = new Enemy("Possessed Machine", 125, 35, 19, 13, 9, "Machine", "None", "None", "None", "Hard", 50, 20);
 		enemy_list.add(goblin);
 		enemy_list.add(waterElemental);
 		enemy_list.add(demonMachine);

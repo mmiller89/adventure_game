@@ -37,6 +37,8 @@ public class Heroes {
 	private int experience;
 	private int expNext;
 
+
+
 	//equipmentList should ONLY hold Weapon or Armor classes.
 	private Set<Object> equipmentList = new LinkedHashSet<>();
 
@@ -64,8 +66,14 @@ public class Heroes {
 			this.heroClass.setDefenseMod(1.5);
 			this.heroClass.setSpeedMod(1.0);
 
-			this.weapon = new Weapon(2,-1,"Broadsword");
-			this.armor = new Armor(5,2, "Mail Armor");
+			this.heroClass.setHealthGrowth(0.2);
+			this.heroClass.setAttackGrowth(0.3);
+			this.heroClass.setDefenseGrowth(0.2);
+			this.heroClass.setManaGrowth(0.1);
+			this.heroClass.setSpeedGrowth(0.1);
+
+			this.weapon = new Weapon(2,-1,0,"Broadsword",0, "BS");
+			this.armor = new Armor(5,2, "Mail Armor",0);
 			equipmentList.add(this.weapon);
 			equipmentList.add(this.armor);
 		}
@@ -75,8 +83,15 @@ public class Heroes {
 			this.heroClass.setAttackMod(0.5);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(1.0);
-			this.weapon  = new Weapon(1,0,"Oak Staff");
-			this.armor = new Armor(0,1, "Cloth Robes");
+
+			this.heroClass.setHealthGrowth(0.1);
+			this.heroClass.setAttackGrowth(0.2);
+			this.heroClass.setDefenseGrowth(0.1);
+			this.heroClass.setManaGrowth(0.4);
+			this.heroClass.setSpeedGrowth(0.1);
+
+			this.weapon  = new Weapon(1,0,2,"Oak Staff", 0, "OS");
+			this.armor = new Armor(0,1, "Cloth Robes", 0);
 			equipmentList.add(this.weapon);
 			equipmentList.add(this.armor);
 		}
@@ -86,14 +101,20 @@ public class Heroes {
 			this.heroClass.setAttackMod(1.0);
 			this.heroClass.setDefenseMod(0.5);
 			this.heroClass.setSpeedMod(2.0);
-			this.weapon = new Weapon(1,1,"Dagger");
-			this.armor = new Armor(5,1, "Leather Tunic");
+
+			this.heroClass.setHealthGrowth(0.1);
+			this.heroClass.setAttackGrowth(0.2);
+			this.heroClass.setDefenseGrowth(0.1);
+			this.heroClass.setManaGrowth(0.0);
+			this.heroClass.setSpeedGrowth(0.3);
+
+
+			this.weapon = new Weapon(1,1,0,"Dagger",0, "DA");
+			this.armor = new Armor(5,1, "Leather Tunic",0);
 			equipmentList.add(this.weapon);
 			equipmentList.add(this.armor);
 		}
 
-		
-		//This code functions as expected.
         this.health = (int) (this.health * this.heroClass.getHealthMod());
         this.mana = (int) (this.mana * this.heroClass.getManaMod());
         this.attack = (int) (this.attack * this.heroClass.getAttackMod());
@@ -190,8 +211,17 @@ public class Heroes {
 	public void equipmentOn(){
 		this.maxAttack += this.weapon.getAttackPower();
 		this.maxSpeed += this.weapon.getSpeed();
+		this.maxMana += this.weapon.getMana();
 		this.maxHealth += this.armor.getHealthIncrease();
 		this.maxDefense += this.armor.getDefenseIncrease();
+	}
+
+	public void equipmentOff(){
+		this.maxAttack -= this.weapon.getAttackPower();
+		this.maxSpeed -= this.weapon.getSpeed();
+		this.maxMana -= this.weapon.getMana();
+		this.maxHealth -= this.armor.getHealthIncrease();
+		this.maxDefense -= this.armor.getDefenseIncrease();
 	}
 
 	//When upgrading equipment.
@@ -202,12 +232,18 @@ public class Heroes {
 			this.maxAttack += newEquip.getAttackPower();
 			this.maxSpeed -= this.weapon.getSpeed();
 			this.maxSpeed += newEquip.getSpeed();
+			this.maxMana -= this.weapon.getMana();
+			this.maxMana += newEquip.getMana();
 
+
+			this.weapon = newEquip;
 			equipmentList.remove(this.weapon);
 			equipmentList.add(newEquip);
+
 			//Failsafe to ensure stats never drop below 0.
             this.maxAttack = Math.max(this.maxAttack, 0);
 			this.maxSpeed = Math.max(this.maxSpeed, 0);
+			this.maxMana = Math.max(this.maxMana, 0);
 		}
 	}
 
@@ -216,6 +252,8 @@ public class Heroes {
 		this.maxDefense += newEquip.getDefenseIncrease();
 		this.maxHealth -= this.armor.getHealthIncrease();
 		this.maxHealth += newEquip.getHealthIncrease();
+
+		this.armor = newEquip;
 		equipmentList.remove(this.armor);
 		equipmentList.add(newEquip);
 
@@ -223,6 +261,36 @@ public class Heroes {
 		this.maxDefense = Math.max(this.maxDefense, 0);
 		this.maxHealth = Math.max(this.maxHealth, 1);
 
+	}
+
+	public void levelUp(){
+		this.setExperience(0);
+		this.setLevel(this.getLevel() + 1);
+		int calculatedNextExp = (int) (this.getExpNext() * 1.20 + (this.getLevel() * 10));
+		this.setExpNext(calculatedNextExp);
+
+		this.equipmentOff();
+
+		System.out.println("*****\n" + this.getPlayerName() + " is now level " + this.getLevel() + "! Stats increase!");
+
+		double healthIncrease = this.maxHealth + Math.max(this.getMaxHealth() * this.heroClass.getHealthGrowth(), 1);
+		this.setMaxHealth((int) healthIncrease);
+
+		double manaIncrease = this.maxMana + Math.max(this.getMaxMana() * this.heroClass.getManaGrowth(), 1);
+		this.setMaxMana((int) manaIncrease);
+
+		double attackIncrease = this.maxAttack + Math.max(this.getMaxAttack() * this.heroClass.getAttackGrowth(), 1);
+		this.setMaxAttack((int) attackIncrease);
+
+		double defenseIncrease = this.maxDefense + Math.max(this.getMaxDefense() * this.heroClass.getDefenseGrowth(), 1);
+		this.setMaxDefense((int) defenseIncrease);
+
+		double speedIncrease = this.maxSpeed + Math.max(this.getMaxSpeed() * this.heroClass.getSpeedGrowth(), 1);
+		this.setMaxSpeed((int) speedIncrease);
+
+		this.equipmentOn();
+
+		System.out.println("*****");
 	}
 
 

@@ -15,6 +15,13 @@ public class HeroClass {
 	private double defenseMod;
 	private double speedMod;
 
+	private double healthGrowth;
+	private double attackGrowth;
+	private double defenseGrowth;
+
+	private double manaGrowth;
+	private double speedGrowth;
+
 	private Set<Ability> abilityList = new LinkedHashSet<>();
 
 	private Ability heroicStrike = new Ability
@@ -113,6 +120,45 @@ public class HeroClass {
 	public void setSpeedMod(double speedMod) {
 		this.speedMod = speedMod;
 	}
-	
+
+	public double getHealthGrowth() {
+		return healthGrowth;
 	}
+
+	public void setHealthGrowth(double healthGrowth) {
+		this.healthGrowth = healthGrowth;
+	}
+
+	public double getAttackGrowth() {
+		return attackGrowth;
+	}
+
+	public void setAttackGrowth(double attackGrowth) {
+		this.attackGrowth = attackGrowth;
+	}
+
+	public double getDefenseGrowth() {
+		return defenseGrowth;
+	}
+
+	public void setDefenseGrowth(double defenseGrowth) {
+		this.defenseGrowth = defenseGrowth;
+	}
+
+	public double getManaGrowth() {
+		return manaGrowth;
+	}
+
+	public void setManaGrowth(double manaGrowth) {
+		this.manaGrowth = manaGrowth;
+	}
+
+	public double getSpeedGrowth() {
+		return speedGrowth;
+	}
+
+	public void setSpeedGrowth(double speedGrowth) {
+		this.speedGrowth = speedGrowth;
+	}
+}
 	

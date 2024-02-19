@@ -3,6 +3,8 @@ package main;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 //Manages the different game states(battle, shops, traveling, etc.). As the game expands, this will
@@ -47,7 +49,94 @@ public class GameManager {
     }
 
     public static void shop (Heroes player){
-        System.out.println("Shop coming soon!");
+        //Shop weapons
+        List<Weapon> weapon_list = new ArrayList<>();
+
+        Weapon oakStaff = new Weapon(1,0,2,"Oak Staff", 0, "OS");
+        Weapon wizardsCane = new Weapon(3,0,5,"Wizard's Cane", 50, "WC");
+        Weapon aurorStaff = new Weapon(10,0,20,"Auror's Grand Staff", 150, "AS");
+        Weapon broadSword = new Weapon(2,-1,0,"Broadsword",0, "BS");
+        Weapon platinumSword = new Weapon(7,-5,0,"Platinum Sword", 50, "PS");
+        Weapon guardianBlade = new Weapon(16,-8,0,"Guardian Blade", 150, "GB");
+        Weapon dagger = new Weapon(1,1,0,"Dagger",0, "DA");
+        Weapon doublePincers = new Weapon(4,5,0,"Double Pincers", 50, "DP");
+        Weapon silentAssassin = new Weapon(10,10,0,"Silent Assassin", 150, "SA");
+
+        Collections.addAll(weapon_list, oakStaff, wizardsCane, aurorStaff, broadSword, platinumSword, guardianBlade, dagger, doublePincers, silentAssassin);
+
+
+
+
+        boolean outerLoop = true;
+
+
+        System.out.println("You turn the knob gently, the thud of your boots smothered by the sound of metal clinking.\n");
+        System.out.println("The shopkeeper greets you warmly.\n");
+        while (outerLoop){
+            Random rand = new Random();
+            int dialogue = rand.nextInt(3);
+            String dialogueOne = "Ulysses: \"Welcome traveler. My name is Ulysses! Take a look at my wares!\"\n";
+            String dialogueTwo = "Ulysses: \"An adventurer I see! Please, look around!\"\n";
+            String dialogueThree = "Ulysses: \"Now, what can I get for you today?\"\n";
+            System.out.println(dialogue == 0 ? dialogueOne : dialogue == 1 ? dialogueTwo : dialogueThree);
+            System.out.println("Gold: " + player.getGold());
+            System.out.println("Weapon: " + player.weapon.getWeaponName());
+            System.out.println("Armor: " + player.armor.getArmorName() + "\n");
+
+            List<Weapon> weapon_list_filtered = weapon_list.stream().filter(w -> !player.weapon.getWeaponName().equals(w.getWeaponName())).toList();
+
+            for (Weapon w : weapon_list_filtered){
+                System.out.println("==========");
+                System.out.println(w.getWeaponName() + " | Attack: " + w.getAttackPower() + " | Speed: " + w.getSpeed() + " | Mana: " + w.getMana() + " | Cost: " + w.getCost() + " Gold" + " | Tag: " + w.getPurchaseTag());
+            }
+
+            boolean innerLoop = true;
+
+            while (innerLoop){
+                Scanner scn = new Scanner(System.in);
+                System.out.println("\nEnter the tag to buy the item. Type Exit to leave the store.");
+                String choice = scn.nextLine().trim().toUpperCase();
+
+                if (choice.equals("EXIT")){
+                    outerLoop = false;
+                    break;
+                }
+
+                for (Weapon w : weapon_list_filtered){
+                    if (choice.equals(w.getPurchaseTag())){
+                        System.out.println("Confirm purchase of " + w.getWeaponName() + " with a cost of " + w.getCost() + " Gold?");
+                        System.out.println("1 - Yes");
+                        System.out.println("2 - No");
+
+                        int yesOrNo = 0;
+                        try {
+                            yesOrNo = scn.nextInt();
+                        }
+                        catch (Exception e) {
+                            System.out.println("That's not a number, try again.\n");
+                        }
+
+                        if (yesOrNo == 1){
+                            if (player.getGold() >= w.getCost()){
+                                System.out.println(player.getPlayerName() + " tossed aside " + player.weapon.getWeaponName() + " and equipped " + w.getWeaponName() + ".\n");
+                                player.equipmentOn(w);
+                                innerLoop = false;
+                            } else {
+                                System.out.println("\"Ulysses: You don't have the coin to buy that, friend.\"\n");
+                                innerLoop = false;
+                            }
+
+                        }
+                    }
+                } scn.nextLine();
+            }
+
+        }
+
+
+
+
+
     }
 
     public static void arena(Heroes player, Enemy enemy, int currentTurn){

@@ -2,14 +2,19 @@ package main;
 
 public class Armor {
 
+    //Armor is class specific.
+
     private int healthIncrease;
     private int defenseIncrease;
     private String armorName;
 
-    public Armor (int healthIncrease, int defenseIncrease, String armorName){
+    private int cost;
+
+    public Armor (int healthIncrease, int defenseIncrease, String armorName, int cost){
         this.healthIncrease = healthIncrease;
         this.defenseIncrease = defenseIncrease;
         this.armorName = armorName;
+        this.cost = cost;
     }
 
     public int getHealthIncrease() {
@@ -42,5 +47,13 @@ public class Armor {
 
     public void setArmorName(String armorName) {
         this.armorName = armorName;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }

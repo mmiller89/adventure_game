@@ -35,9 +35,9 @@ public class BattleTurnManager{
             player.setGold(player.getGold() + enemy.getGoldValue());
             player.setExperience(player.getExperience() + enemy.getExperienceValue());
             System.out.println(player.getPlayerName() + " earns " + enemy.getExperienceValue() + " experience and " + enemy.getGoldValue() + " gold!");
-            //if (player.getExperience() >= player.getExpNext()){
-            //player.levelUp();
-            //}
+            if (player.getExperience() >= player.getExpNext()){
+                player.levelUp();
+            }
             return "battle over";
         }
         if (playerDeath) {
