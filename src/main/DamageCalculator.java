@@ -167,7 +167,7 @@ public class DamageCalculator {
             if (ability.getAdditionalEffect().equals("focus") && player.getBoon().equals("None")){
                 player.setBoon("Focus");
             } else if (ability.getAdditionalEffect().equals("focus") && player.getBoon().equals("Mana Shield")){
-                System.out.println("Mana shield dissipates!");
+                System.out.println("Mana shield dissipates due to Focus!");
                 player.setBoon("Focus");
             }
         }

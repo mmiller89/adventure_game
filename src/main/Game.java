@@ -102,7 +102,7 @@ public class Game {
 		intChoice = 0;
 
 		while (looping){
-			System.out.println("\n*****\n1 - Arena\n2 - Shop\n3 - Travel\n4 - Adventure Guide\n5 - Hero Stats\n6 - Exit (Your hero will not be saved! This is a planned update TBD.)\n*****");
+			System.out.println("\n*****\n1 - Arena\n2 - Shop\n3 - Adventure\n4 - Adventure Guide\n5 - Hero Stats\n6 - Exit (Your hero will not be saved! This is a planned update TBD.)\n*****");
 			try {
 				intChoice = scn.nextInt();
 			}
@@ -133,7 +133,7 @@ public class Game {
 					catch (Exception e) {
 						System.out.println("That's not a number, try again.\n");
 					}
-					GameManager.arena(player, enemy_array_arena.get(intChoice - 1), 0);
+					GameManager.battle(player, enemy_array_arena.get(intChoice - 1), 0);
 					innerLoop = false;
 
 				}
@@ -173,9 +173,9 @@ public class Game {
 	}
 
 	public static List<Enemy> makeArenaEnemyArray(Set<Enemy> enemy_list){
-		Enemy goblin = new Enemy("Goblin", 30, 10, 5, 3, 5, "Organic", "Unarmored", "None", "None", "Easy", 10, 1);
-		Enemy waterElemental = new Enemy("Water Elemental", 50, 25, 7, 5, 5, "Elemental", "None", "None", "None", "Medium", 25, 5);
-		Enemy demonMachine = new Enemy("Possessed Machine", 125, 35, 19, 13, 9, "Machine", "None", "None", "None", "Hard", 50, 20);
+		Enemy goblin = new Enemy("Goblin", 30, 10, 4, 2, 5, "Organic", "Unarmored", "None", "None", "Easy", 10, 1);
+		Enemy waterElemental = new Enemy("Water Elemental", 50, 25, 6, 4, 5, "Elemental", "None", "None", "None", "Medium", 25, 5);
+		Enemy demonMachine = new Enemy("Possessed Machine", 125, 35, 16, 11, 9, "Machine", "None", "None", "None", "Hard", 50, 20);
 		enemy_list.add(goblin);
 		enemy_list.add(waterElemental);
 		enemy_list.add(demonMachine);

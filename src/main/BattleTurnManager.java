@@ -117,8 +117,10 @@ public class BattleTurnManager{
 
 
         if (attackSuccess){
-            System.out.println(player.getPlayerName() + " does " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
-            enemy.setHealth(enemy.getHealth() - damage);
+            if (!ability_list.get(chosenAction).getAttackType().equals("Non-Damage")){
+                System.out.println(player.getPlayerName() + " does " + damage + " damage to " + enemy.getName() + " with " + chosenAbility + "!");
+                enemy.setHealth(enemy.getHealth() - damage);
+            }
         } else if (player.isDefending()){
             System.out.println(player.getPlayerName() + " enters a defensive stance!");
         } else if (player.getBoon().equals("Mana Shield")) {

@@ -18,11 +18,11 @@ public class GameManager {
         System.out.println("With a thud, you place the heavy book down in front of you.");
         while (looping) {
             System.out.println("What chapter will you read? Type 'close' to put the book away.");
-            System.out.println("Attack | Abilities | Defending | Types");
+            System.out.println("Attack | Abilities | Defending | Types | Close");
             String choice = scn.nextLine().trim().toLowerCase();
             switch (choice) {
                 case "attack" -> {
-                    System.out.println("Attack, which is Option 1 in combat, has a unique effects depending on your class");
+                    System.out.println("Attack, which is Option 1 in combat, has a unique effects depending on your class.");
                     System.out.println("Warrior - 25% of the damage is restored as health.\nMage - Restores 20% of maximum MP.\nThief - 25% chance to grant Boon 'Evasion', granting a 50% chance to dodge attacks.");
                 }
                 case "abilities" ->
@@ -44,8 +44,10 @@ public class GameManager {
 
     }
 
-    public static void adventure(Heroes player){
-        System.out.println("Adventures coming soon!");
+    public static void adventure(Heroes player) throws InterruptedException {
+
+        Adventures.adventureOne(player);
+        System.out.println("\n**********\nA new adventure unlocks at level 4, 7, and 10!\n**********");
     }
 
     public static void shop (Heroes player){
@@ -120,6 +122,7 @@ public class GameManager {
                             if (player.getGold() >= w.getCost()){
                                 System.out.println(player.getPlayerName() + " tossed aside " + player.weapon.getWeaponName() + " and equipped " + w.getWeaponName() + ".\n");
                                 player.equipmentOn(w);
+                                player.setGold(player.getGold() - w.getCost());
                                 innerLoop = false;
                             } else {
                                 System.out.println("\"Ulysses: You don't have the coin to buy that, friend.\"\n");
@@ -139,7 +142,7 @@ public class GameManager {
 
     }
 
-    public static void arena(Heroes player, Enemy enemy, int currentTurn){
+    public static void battle(Heroes player, Enemy enemy, int currentTurn){
         //When enemies have abilities, create a separate list.
         List<Ability> ability_list = new ArrayList<>(player.heroClass.getAbilityList());
         List<Ability> enemy_ability_list = new ArrayList<>(enemy.getEnemyAbilityList());

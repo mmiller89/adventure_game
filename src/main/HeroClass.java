@@ -26,10 +26,10 @@ public class HeroClass {
 
 	private Ability heroicStrike = new Ability
 			("Heroic Strike",
-			"A slashing blow to one target. Enhances weapon, causing your next regular attack to do 200% damage.", "Slashing", 2, 3,
+			"A slashing blow to one target. Enhances weapon, causing your next regular attack to do double damage.", "Slashing", 2, 2,
 					"heroic strike", "I'll suffer you no longer!", -1, -1);
 	private Ability crushingBlow = new Ability("Crushing Blow",
-			"Crush an enemy. High power, but hero loses 40% attack for remainder of battle.", "Crushing", 0, 10,
+			"Crush an enemy. High power, but hero loses 40% attack for remainder of battle.", "Crushing", 0, 9,
 			"crushing blow", "A devastating blow to you, fiend!", -1, -1);
 	private Ability frostBolt = new Ability(
 			"Frostbolt",
